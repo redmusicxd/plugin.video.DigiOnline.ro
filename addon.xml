@@ -22,7 +22,7 @@
 -->
 
 <addon id="plugin.video.DigiOnline.ro"
-version="1.0.0"
+version="1.0.1"
 name="DigiOnline.ro"
 provider-name="cralin">
 <requires>
@@ -37,11 +37,11 @@ provider-name="cralin">
   <summary lang="en">Watch live TV channels from DigiOnline.ro</summary>
   <description lang="en_GB">
     Kodi addon for accessing DigiOnline.ro live TV channels.
-    
+
 User registration and login credentials are required in order to access DigiOnline.ro media content. 
 
 Visit https://www.digiromania.ro for more details.
-    
+
   </description>
   <disclaimer lang="en_GB">
     The author is not connected to or in any other way affiliated with Kodi, Team Kodi, the XBMC foundation, RCS RDS SA, digi24.ro or digionline.ro.
