@@ -509,7 +509,6 @@ def list_categories():
     xbmcplugin.setContent(_handle, 'videos')
 
     # Get video categories
-    # zed caching
     addon_categoriesfile_name = os.path.join(addon_data_dir, 'categories.json')
 
     if os.path.exists(addon_categoriesfile_name):
@@ -518,7 +517,8 @@ def list_categories():
                 cache = json.load(tmp)
             except:
                 cache = {}
-        logger.info('Read categories from cache')
+        logger.debug('Read categories from cache')
+        logger.debug('cache = ' +str(cache))
 
     try:
         cache['time']
@@ -526,9 +526,13 @@ def list_categories():
         cache = {}
         cache['time'] = 0
 
+    logger.debug('cache = ' +str(cache))
+
+
     # zed cache categories for 1 day
-    if (cache['time'] > time.time() - (24 * 60 * 60)):
+    if (cache['time'] > time.time() - (24 * 60 * 60)) and cache['categories']:
         categories = cache['categories']
+         
     else:
         # Login to DigiOnline for this session
         do_login()
@@ -607,6 +611,7 @@ def list_channels(category):
             except:
                 cache = {}
         logger.info('Read channels from cache')
+        logger.debug('cache = ' +str(cache))
 
     try:
         cache['time']
@@ -614,8 +619,10 @@ def list_channels(category):
         cache = {}
         cache['time'] = 0
 
+    logger.debug('cache = ' +str(cache))
+
     # zed cache channels for 30 min to be partial accurated the epg
-    if (cache['time'] > time.time() - (30 * 60)):
+    if (cache['time'] > time.time() - (30 * 60)) and cache['channels']:
         channels = cache['channels']
     else:
         # Login to DigiOnline for this session
