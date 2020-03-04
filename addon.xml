@@ -22,7 +22,7 @@
 -->
 
 <addon id="plugin.video.DigiOnline.ro"
-version="1.0.1"
+version="1.0.3"
 name="DigiOnline.ro"
 provider-name="cralin">
 <requires>
@@ -51,6 +51,10 @@ Visit https://www.digiromania.ro for more details.
     <fanart>fanart.jpg</fanart>
     <screenshot></screenshot>
   </assets>
-  <news>Initial version of this plugin</news>
+  <news>
+  * Better handling of the caches and the cached content.
+* Download additional EPG data only if the option to show the program title in channel list is enabled in the addon settings.
+* The retention interval for the cached content can now configured in the addon settings.
+  </news>
 </extension>
 </addon>
