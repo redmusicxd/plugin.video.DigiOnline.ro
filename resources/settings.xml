@@ -30,6 +30,14 @@
   <category label="General Settings">
     <setting label="Display" type="lsep"/>
     <setting label="Show program title in channel list" id="ShowTitleInChannelList" type="bool" default="false" />
+  </category>
+  <category label="Cached data">
+    <setting label="Retention interval (days)" type="lsep"/>
+    <setting label="Refresh list of categories every" id="categoriesCachedDataRetentionInterval" type="slider" default="90" range="1,1,365" option="int" />
+    <setting label="Refresh list of channels every" id="channelsCachedDataRetentionInterval" type="slider" default="30" range="1,1,365" option="int" />
+    <setting type="sep"/>
+    <setting label="Retention interval (minutes)" type="lsep"/>
+    <setting label="Refresh channel EPG data every" id="EPGDataCachedDataRetentionInterval" type="slider" default="10" range="5,1,365" option="int" />
     <setting type="sep"/>
   </category>
   <category label="Debug Options">
