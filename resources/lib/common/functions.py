@@ -473,6 +473,9 @@ def get_channels(category, NAME, COOKIEJAR, SESSION):
     logger.debug('Received data: ' + str(_request_.content))
 
     _raw_channel_details_box_ = re.findall('<div class="entry-video video-player(.+?)</div>', _request_.content, re.IGNORECASE|re.DOTALL)
+    if not _raw_channel_details_box_:
+      _raw_channel_details_box_ = re.findall('<div class="video-player entry-video(.+?)</div>', _request_.content, re.IGNORECASE|re.DOTALL)
+
     logger.debug('_raw_channel_details_box_ = ' + str(_raw_channel_details_box_))
 
     _channel_details_box_ = _raw_channel_details_box_[0]
