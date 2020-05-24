@@ -29,6 +29,19 @@ import json
 import vars
 
 
+def read_AddonSettings(__MyAddon__):
+  # Read the user preferences stored in the addon configuration
+  vars.__config_AccountUser__ = __MyAddon__.getSetting('AccountUser')
+  vars.__config_AccountPassword__ = __MyAddon__.getSetting('AccountPassword')
+  vars.__config_DebugEnabled__ = __MyAddon__.getSetting('DebugEnabled')
+  vars.__config_ShowTitleInChannelList__ = __MyAddon__.getSetting('ShowTitleInChannelList')
+  vars.__categoriesCachedDataRetentionInterval__ = (int(vars.__day__) * int(__MyAddon__.getSetting('categoriesCachedDataRetentionInterval')))
+  vars.__channelsCachedDataRetentionInterval__ = (int(vars.__day__) * int(__MyAddon__.getSetting('channelsCachedDataRetentionInterval')))
+  vars.__EPGDataCachedDataRetentionInterval__ = (int(vars.__minute__) * int(__MyAddon__.getSetting('EPGDataCachedDataRetentionInterval')))
+  vars.__SimplePVRIntegration_m3u_FileRefreshTime__ = __MyAddon__.getSetting('SimplePVRIntegration_m3u_FileRefreshTime')
+  vars.__SimplePVRIntegration_EPG_FileRefreshTime__ = __MyAddon__.getSetting('SimplePVRIntegration_EPG_FileRefreshTime')
+
+
 def init_AddonCookieJar(NAME, DATA_DIR):
   ####
   #

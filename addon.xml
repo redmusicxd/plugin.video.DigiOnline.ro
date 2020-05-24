@@ -22,7 +22,7 @@
 -->
 
 <addon id="plugin.video.DigiOnline.ro"
-version="1.0.4"
+version="1.0.5"
 name="DigiOnline.ro"
 provider-name="cralin">
 <requires>
@@ -33,6 +33,7 @@ provider-name="cralin">
 <extension point="xbmc.python.pluginsource" library="main.py">
   <provides>video</provides>
 </extension>
+<extension point="xbmc.service" library="service.py"/>
 <extension point="xbmc.addon.metadata">
   <summary lang="en">Watch live TV channels from DigiOnline.ro</summary>
   <description lang="en_GB">
@@ -52,9 +53,7 @@ Visit https://www.digiromania.ro for more details.
     <screenshot></screenshot>
   </assets>
   <news>
-  * Better handling of the caches and the cached content.
-* Download additional EPG data only if the option to show the program title in channel list is enabled in the addon settings.
-* The retention interval for the cached content can now configured in the addon settings.
+  * The addon now generates and maintains a playlist file that can be used by PVR IPTV Simple Client. 
   </news>
 </extension>
 </addon>

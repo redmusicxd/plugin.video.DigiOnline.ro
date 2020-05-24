@@ -30,9 +30,11 @@ __userAgent__ = 'Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101 Firefox
 
 # The IDs used by addon
 __AddonID__ = 'plugin.video.DigiOnline.ro'
+__ServiceID__ = 'service.plugin.video.DigiOnline.ro'
 
 # File names for the files where the addon and the service will write the log entries
 __AddonLogFilename__ = __AddonID__ + '.log'
+__ServiceLogFilename__ = __ServiceID__ + '.log'
 
 # The cookiejar used by addon
 __AddonCookiesFilename__ = 'cookies.txt'
@@ -41,11 +43,14 @@ __AddonCookieJar__ = ''
 # The session used by addon
 __AddonSession__ = ''
 
+# The session used by service
+__ServiceSession__ = ''
 
-# Data caching
 
+# Constants
 __minute__ = (1 * 60)
 __day__ = (24 * 60 * 60)
+
 # Directory holding the cached data. 
 __cache_dir__ = 'cached_data'
 
@@ -61,5 +66,15 @@ __channelsCachedDataRetentionInterval__ = (10 * __day__)
 
 # How much time has to pass before reading again from DigiOnline.ro the EPG data for a channel.
 __EPGDataCachedDataRetentionInterval__ = (10 * __minute__)
+
+
+# Service variables
+__SimplePVRIntegration_m3u_FileName__ = __AddonID__ + '.m3u'
+__SimplePVRIntegration_EPG_FileName__ = __AddonID__ + '.EPG.xml' 
+__SimplePVRIntegration_m3u_FileRefreshTime__ = ''
+__SimplePVRIntegration_EPG_FileRefreshTime__ = ''
+__SimplePVRIntegration_m3u_FileOldRefreshTime__ = ''
+__SimplePVRIntegration_EPG_FileOldRefreshTime__ = ''
+
 
 

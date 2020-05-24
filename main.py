@@ -56,20 +56,7 @@ if not os.path.exists(MyAddon_DataDir):
     os.makedirs(MyAddon_DataDir)
 
 # Read the user preferences stored in the addon configuration
-vars.__config_AccountUser__ = MyAddon.getSetting('AccountUser')
-vars.__config_AccountPassword__ = MyAddon.getSetting('AccountPassword')
-vars.__config_DebugEnabled__ = MyAddon.getSetting('DebugEnabled')
-vars.__config_ShowTitleInChannelList__ = MyAddon.getSetting('ShowTitleInChannelList')
-vars.__categoriesCachedDataRetentionInterval__ = (int(vars.__day__) * int(MyAddon.getSetting('categoriesCachedDataRetentionInterval')))
-vars.__channelsCachedDataRetentionInterval__ = (int(vars.__day__) * int(MyAddon.getSetting('channelsCachedDataRetentionInterval')))
-vars.__EPGDataCachedDataRetentionInterval__ = (int(vars.__minute__) * int(MyAddon.getSetting('EPGDataCachedDataRetentionInterval')))
-
-
-#TODO: Extend the settings.xml with options to allow the user to set:
-#        - The ammount of time (multiple of days) to keep the cached categories before re-reading them from DigiOnline.ro 
-#        - The ammount of time (multiple of days) to keep the cached channels in a category before re-reading them from DigiOnline.ro
-#        - The ammount of time (in minutes, no less than __EPGDataCachedDataRetentionInterval__ ) to keep the cached EPG data for each 
-#          channel before re-reading it from DigiOnline.ro
+functions.read_AddonSettings(MyAddon)
 
 # Log file name
 addon_logfile_name = os.path.join(MyAddon_DataDir, vars.__AddonLogFilename__)
