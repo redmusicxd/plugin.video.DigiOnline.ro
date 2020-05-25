@@ -126,7 +126,7 @@ def schedule_jobs():
     schedule.every().day.at(vars.__SimplePVRIntegration_m3u_FileRefreshTime__).do(SimplePVRIntegration_update_m3u_file, vars.__ServiceID__, vars.__AddonCookieJar__, vars.__ServiceSession__, MyServiceAddon_DataDir).tag('m3u')
     
 #    schedule.clear('EPG')
-#    schedule.every().day.at(vars.__SimplePVRIntegration_EPG_FileRefreshTime__).do(SimplePVRIntegration_update_EPG_file, vars.__ServiceID__, vars.__AddonCookieJar__, vars.__ServiceSession__, MyServiceAddon_DataDir).tag('EPG')
+    schedule.every().day.at(vars.__SimplePVRIntegration_EPG_FileRefreshTime__).do(SimplePVRIntegration_update_EPG_file, vars.__ServiceID__, vars.__AddonCookieJar__, vars.__ServiceSession__, MyServiceAddon_DataDir).tag('EPG')
 
     # Record the new values
     vars.__SimplePVRIntegration_m3u_FileOldRefreshTime__ = vars.__SimplePVRIntegration_m3u_FileRefreshTime__
