@@ -9,7 +9,8 @@ This plugin is not officially commissioned/supported by DigiOnline.ro, Digi Roma
 ## Features
  - Dynamic list of categories and channels.
  - Plays both DRM and non-DRM protected channels.
- - Generates and maintains a playlist file that can be used by PVR IPTV Simple Client.
+ - Generates and maintains the m3u file that can be used by PVR IPTV Simple Client.
+ - Generates and maintains the XMLTV file that can be used by PVR IPTV Simple Client
 
 
 ## Installation & Updates

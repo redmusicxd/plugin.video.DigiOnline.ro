@@ -25,7 +25,6 @@ import requests
 import json
 import logging
 import logging.handlers
-#import datetime
 from datetime import datetime
 from datetime import timedelta
 import time
@@ -139,7 +138,6 @@ def schedule_jobs():
   logger.debug('Exit function')
 
 
-
 def SimplePVRIntegration_init_m3u_file(NAME, COOKIEJAR, SESSION, DATA_DIR):
   logger.debug('Enter function')
   
@@ -156,7 +154,6 @@ def SimplePVRIntegration_init_m3u_file(NAME, COOKIEJAR, SESSION, DATA_DIR):
     SimplePVRIntegration_update_m3u_file(NAME, COOKIEJAR, SESSION, DATA_DIR)
     
   logger.debug('Exit function')
-
 
 
 def SimplePVRIntegration_update_m3u_file(NAME, COOKIEJAR, SESSION, DATA_DIR):
@@ -210,16 +207,11 @@ def SimplePVRIntegration_update_m3u_file(NAME, COOKIEJAR, SESSION, DATA_DIR):
         _data_file_.write(_play_url_ + "\n")
         
         _CHNO_ = _CHNO_ + 1
-      
-    
+
   _data_file_.close()
   os.rename(_tmp_m3u_file_, _m3u_file_)
   
   logger.debug('Exit function')
-
-
-
-
 
 
 def SimplePVRIntegration_getEPG_data(NAME, COOKIEJAR, SESSION, DATE, STREAMID):
@@ -252,7 +244,6 @@ def SimplePVRIntegration_getEPG_data(NAME, COOKIEJAR, SESSION, DATE, STREAMID):
   logger.debug('Received cookies: ' + str(list(COOKIEJAR)))
   logger.debug('Received headers: ' + str(_request_.headers))
   logger.debug('Received data: ' + str(_request_.content))
-
 
   logger.debug('Exit function')
   return str(_request_.content)
@@ -319,8 +310,7 @@ def SimplePVRIntegration_update_EPG_file(NAME, COOKIEJAR, SESSION, DATA_DIR):
        
         _channel_metadata_ = json.loads(channel['metadata'])
         logger.debug('Channel streamId: ' + str(_channel_metadata_['new-info']['meta']['streamId']))
-        
-        
+                
         _json_today_ = SimplePVRIntegration_getEPG_data(NAME, COOKIEJAR, SESSION, _today_, _channel_metadata_['new-info']['meta']['streamId'])
         logger.debug('_json_today_: ' + str(_json_today_))
         
@@ -376,19 +366,11 @@ def SimplePVRIntegration_update_EPG_file(NAME, COOKIEJAR, SESSION, DATA_DIR):
             _line_ = "  </programme>"
             _data_file_.write(_line_ + "\n")
 
-
-  
   _data_file_.write("</tv>" + "\n")
   _data_file_.close()
   os.rename(_tmp_epg_file_, _epg_file_)
   
   logger.debug('Exit function')
-
-
-
-
-
-
 
 
 if __name__ == '__main__':
@@ -409,5 +391,4 @@ if __name__ == '__main__':
       break
     schedule.run_pending()
   logger.debug('Exit __main__ ')
-
 
