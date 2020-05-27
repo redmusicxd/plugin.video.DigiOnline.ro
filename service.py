@@ -31,6 +31,7 @@ import time
 import resources.lib.common.vars as vars
 import resources.lib.common.functions as functions
 import resources.lib.schedule as schedule
+import re
 
 # Kodi uses the following sys.argv arguments:
 # [0] - The base URL for this add-on, e.g. 'plugin://plugin.video.demo1/'.
@@ -357,9 +358,17 @@ def SimplePVRIntegration_update_EPG_file(NAME, COOKIEJAR, SESSION, DATA_DIR):
             _line_ = "  <programme start=\"" + str(_start_date_time_object_.strftime("%Y%m%d%H%M%S")) + "\" stop=\"" + str(_stop_date_time_object_.strftime("%Y%m%d%H%M%S")) + "\" channel=\"" + _epg_['data']['id_stream'] + "\">"
             _data_file_.write(_line_ + "\n")
 
+            # Replace unwanted characters in the program name
+            _program_data_['program_name'] = re.sub('<', '"', _program_data_['program_name'], flags=re.IGNORECASE)
+            _program_data_['program_name'] = re.sub('>', '"', _program_data_['program_name'], flags=re.IGNORECASE)
             _line_ = "    <title>" + _program_data_['program_name'] + "</title>"
             _data_file_.write(_line_ + "\n")
 
+             # Replace unwanted characters in the program description
+            _program_data_['program_description'] = re.sub('<', '"', _program_data_['program_description'], flags=re.IGNORECASE)
+            _program_data_['program_description'] = re.sub('>', '"', _program_data_['program_description'], flags=re.IGNORECASE)
+            _program_data_['program_description_l'] = re.sub('<', '"', _program_data_['program_description_l'], flags=re.IGNORECASE)
+            _program_data_['program_description_l'] = re.sub('>', '"', _program_data_['program_description_l'], flags=re.IGNORECASE)
             _line_ = "    <desc>" + _program_data_['program_description'] + "\n\n" + _program_data_['program_description_l'] + "</desc>"
             _data_file_.write(_line_ + "\n")
 
