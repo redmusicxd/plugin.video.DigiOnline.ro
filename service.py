@@ -166,10 +166,6 @@ def SimplePVRIntegration_update_m3u_file(NAME, COOKIEJAR, SESSION, DATA_DIR):
   logger.debug('m3u file: ' + _m3u_file_)
   logger.debug('Temp m3u file: ' + _tmp_m3u_file_)
   
-  _CHNO_ = 1
-  _data_file_ = open(_tmp_m3u_file_, 'w')
-  _data_file_.write("#EXTM3U tvg-shift=0" + "\n")
-  
   # Login to DigiOnline for this session
   login = functions.do_login(NAME, COOKIEJAR, SESSION)
 
@@ -177,6 +173,10 @@ def SimplePVRIntegration_update_m3u_file(NAME, COOKIEJAR, SESSION, DATA_DIR):
     logger.debug('[Authentication error] => Error message: '+ login['error_message'])
 
   else:
+    _CHNO_ = 1
+    _data_file_ = open(_tmp_m3u_file_, 'w')
+    _data_file_.write("#EXTM3U tvg-shift=0" + "\n")
+
     # Get video categories
     categories = functions.get_categories(NAME, COOKIEJAR, SESSION)
     #logger.debug('Received categories = ' + str(categories))
@@ -209,8 +209,8 @@ def SimplePVRIntegration_update_m3u_file(NAME, COOKIEJAR, SESSION, DATA_DIR):
         
         _CHNO_ = _CHNO_ + 1
 
-  _data_file_.close()
-  os.rename(_tmp_m3u_file_, _m3u_file_)
+    _data_file_.close()
+    os.rename(_tmp_m3u_file_, _m3u_file_)
   
   logger.debug('Exit function')
 
@@ -282,11 +282,6 @@ def SimplePVRIntegration_update_EPG_file(NAME, COOKIEJAR, SESSION, DATA_DIR):
   logger.debug('epg file: ' + _epg_file_)
   logger.debug('Temp epg file: ' + _tmp_epg_file_)
   
-  _data_file_ = open(_tmp_epg_file_, 'w')
-  
-  _data_file_.write("<?xml version=\"1.0\" encoding=\"utf-8\" ?>" + "\n")
-  _data_file_.write("<tv>" + "\n")
-  
   # Login to DigiOnline for this session
   login = functions.do_login(NAME, COOKIEJAR, SESSION)
 
@@ -294,6 +289,12 @@ def SimplePVRIntegration_update_EPG_file(NAME, COOKIEJAR, SESSION, DATA_DIR):
     logger.debug('[Authentication error] => Error message: '+ login['error_message'])
 
   else:
+  
+    _data_file_ = open(_tmp_epg_file_, 'w')
+  
+    _data_file_.write("<?xml version=\"1.0\" encoding=\"utf-8\" ?>" + "\n")
+    _data_file_.write("<tv>" + "\n")
+
     # Get video categories
     categories = functions.get_categories(NAME, COOKIEJAR, SESSION)
     #logger.debug('Received categories = ' + str(categories))
@@ -375,9 +376,9 @@ def SimplePVRIntegration_update_EPG_file(NAME, COOKIEJAR, SESSION, DATA_DIR):
             _line_ = "  </programme>"
             _data_file_.write(_line_ + "\n")
 
-  _data_file_.write("</tv>" + "\n")
-  _data_file_.close()
-  os.rename(_tmp_epg_file_, _epg_file_)
+    _data_file_.write("</tv>" + "\n")
+    _data_file_.close()
+    os.rename(_tmp_epg_file_, _epg_file_)
   
   logger.debug('Exit function')
 
