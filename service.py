@@ -33,6 +33,8 @@ import resources.lib.common.functions as functions
 import resources.lib.schedule as schedule
 import re
 
+__SystemBuildVersion__ = xbmc.getInfoLabel('System.BuildVersion')
+
 # Kodi uses the following sys.argv arguments:
 # [0] - The base URL for this add-on, e.g. 'plugin://plugin.video.demo1/'.
 # [1] - The process handle for this add-on, as a numeric string.
@@ -385,7 +387,8 @@ def SimplePVRIntegration_update_EPG_file(NAME, COOKIEJAR, SESSION, DATA_DIR):
 
 if __name__ == '__main__':
   logger.debug('Enter __main__ ')
-
+  logger.info('Running on: ' + str(__SystemBuildVersion__))
+  
   SimplePVRIntegration_init_m3u_file(vars.__ServiceID__, vars.__AddonCookieJar__, vars.__ServiceSession__, MyServiceAddon_DataDir)
   SimplePVRIntegration_init_EPG_file(vars.__ServiceID__, vars.__AddonCookieJar__, vars.__ServiceSession__, MyServiceAddon_DataDir)
   

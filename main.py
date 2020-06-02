@@ -37,6 +37,9 @@ import resources.lib.common.functions as functions
 import cookielib
 # import http.cookiejar
 
+
+__SystemBuildVersion__ = xbmc.getInfoLabel('System.BuildVersion')
+
 # Kodi uses the following sys.argv arguments:
 # [0] - The base URL for this add-on, e.g. 'plugin://plugin.video.demo1/'.
 # [1] - The process handle for this add-on, as a numeric string.
@@ -582,6 +585,7 @@ def router(paramstring):
 
 if __name__ == '__main__':
   logger.debug('Enter function')
+  logger.info('Running on: ' + str(__SystemBuildVersion__))
 
   # Call the router function and pass the plugin call parameters to it.
   router(sys.argv[2][1:])
