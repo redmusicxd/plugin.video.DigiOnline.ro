@@ -84,7 +84,6 @@ handler.setFormatter(formatter)
 # add the file handler to the logger
 logger.addHandler(handler)
 
-
 logger.info('[ Addon settings ] MyServiceAddon = ' + str(MyServiceAddon))
 logger.info('[ Addon settings ] MyServiceAddon_DataDir = ' + str(MyServiceAddon_DataDir))
 logger.info('[ Addon settings ] __config_DebugEnabled__ = ' + str(vars.__config_DebugEnabled__))
@@ -97,7 +96,6 @@ vars.__ServiceSession__ = requests.Session()
 
 # Put all session cookeis in the cookiejar
 vars.__ServiceSession__.cookies = vars.__AddonCookieJar__
-
 
 def get_url(**kwargs):
   ####
@@ -181,7 +179,6 @@ def SimplePVRIntegration_update_m3u_file(NAME, COOKIEJAR, SESSION, DATA_DIR):
 
     # Get video categories
     categories = functions.get_categories(NAME, COOKIEJAR, SESSION)
-    #logger.debug('Received categories = ' + str(categories))
     logger.debug('Received categories = ' + str(categories))
     
     for category in categories:
@@ -291,7 +288,6 @@ def SimplePVRIntegration_update_EPG_file(NAME, COOKIEJAR, SESSION, DATA_DIR):
     logger.debug('[Authentication error] => Error message: '+ login['error_message'])
 
   else:
-  
     _data_file_ = open(_tmp_epg_file_, 'w')
   
     _data_file_.write("<?xml version=\"1.0\" encoding=\"utf-8\" ?>" + "\n")
