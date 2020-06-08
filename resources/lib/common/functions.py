@@ -147,7 +147,7 @@ def do_login(NAME, COOKIEJAR, SESSION):
 
   MyFormData_logger = {
     'form-login-email': vars.__config_AccountUser__,
-    'form-login-password': ****************
+    'form-login-password': '****************'
   }
 
   logger.debug('Cookies: ' + str(list(COOKIEJAR)))
