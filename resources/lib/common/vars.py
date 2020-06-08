@@ -75,6 +75,7 @@ __SimplePVRIntegration_m3u_FileRefreshTime__ = ''
 __SimplePVRIntegration_EPG_FileRefreshTime__ = ''
 __SimplePVRIntegration_m3u_FileOldRefreshTime__ = ''
 __SimplePVRIntegration_EPG_FileOldRefreshTime__ = ''
-
+__SimplePVRIntegration_m3u_FileMaxAge__ = (1 * __day__) + (1 * __minute__)
+__SimplePVRIntegration_EPG_FileMaxAge__ = (1 * __day__) + (1 * __minute__)
 
 

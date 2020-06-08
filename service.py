@@ -149,6 +149,18 @@ def SimplePVRIntegration_init_m3u_file(NAME, COOKIEJAR, SESSION, DATA_DIR):
   if os.path.exists(_m3u_file_) and os.path.getsize(_m3u_file_) != 0:
     # The _m3u_file_ exists and is not empty.
     logger.debug('\'' + _m3u_file_ + '\' exists and is not empty.')
+
+    # Get the value (seconds since epoch) of the last modification time.
+    _last_update_ = os.path.getmtime(_m3u_file_)
+    
+    if _last_update_ > time.time() - vars.__SimplePVRIntegration_m3u_FileMaxAge__:
+      # File was updated within the last __SimplePVRIntegration_m3u_FileMaxAge__ interval, nothing to do
+      logger.debug('\'' + _m3u_file_ + '\' last update: ' + time.strftime("%Y%m%d_%H%M%S", time.localtime(_last_update_)))      
+
+    else:
+      logger.debug('\'' + _m3u_file_ + '\' last update: ' + time.strftime("%Y%m%d_%H%M%S", time.localtime(_last_update_)))
+      SimplePVRIntegration_update_m3u_file(NAME, COOKIEJAR, SESSION, DATA_DIR)
+    
   else:
     # The _m3u_file_ does not exist or is empty.
     logger.debug('\'' + _m3u_file_ + '\' does not exist or is empty.')
@@ -259,6 +271,18 @@ def SimplePVRIntegration_init_EPG_file(NAME, COOKIEJAR, SESSION, DATA_DIR):
   if os.path.exists(_epg_file_) and os.path.getsize(_epg_file_) != 0:
     # The _epg_file_ exists and is not empty.
     logger.debug('\'' + _epg_file_ + '\' exists and is not empty.')
+
+    # Get the value (seconds since epoch) of the last modification time.
+    _last_update_ = os.path.getmtime(_epg_file_)
+    
+    if _last_update_ > time.time() - vars.__SimplePVRIntegration_EPG_FileMaxAge__:
+      # File was updated within the last __SimplePVRIntegration_EPG_FileMaxAge__ interval, nothing to do
+      logger.debug('\'' + _epg_file_ + '\' last update: ' + time.strftime("%Y%m%d_%H%M%S", time.localtime(_last_update_)))      
+
+    else:
+      logger.debug('\'' + _epg_file_ + '\' last update: ' + time.strftime("%Y%m%d_%H%M%S", time.localtime(_last_update_)))
+      SimplePVRIntegration_update_EPG_file(NAME, COOKIEJAR, SESSION, DATA_DIR)
+    
   else:
     # The _epg_file_ does not exist or is empty.
     logger.debug('\'' + _epg_file_ + '\' does not exist or is empty.')
