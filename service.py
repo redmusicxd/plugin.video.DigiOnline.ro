@@ -141,7 +141,7 @@ def schedule_jobs():
 
 def SimplePVRIntegration_init_m3u_file(NAME, COOKIEJAR, SESSION, DATA_DIR):
   logger.debug('Enter function')
-  
+
   _ENVHOME_DIR_ = xbmc.translatePath('special://envhome')
   _m3u_file_ = os.path.join(_ENVHOME_DIR_, vars.__SimplePVRIntegration_m3u_FileName__)
   logger.debug('m3u file: ' + _m3u_file_)
@@ -152,20 +152,20 @@ def SimplePVRIntegration_init_m3u_file(NAME, COOKIEJAR, SESSION, DATA_DIR):
 
     # Get the value (seconds since epoch) of the last modification time.
     _last_update_ = os.path.getmtime(_m3u_file_)
-    
+
     if _last_update_ > time.time() - vars.__SimplePVRIntegration_m3u_FileMaxAge__:
       # File was updated within the last __SimplePVRIntegration_m3u_FileMaxAge__ interval, nothing to do
-      logger.debug('\'' + _m3u_file_ + '\' last update: ' + time.strftime("%Y%m%d_%H%M%S", time.localtime(_last_update_)))      
+      logger.debug('\'' + _m3u_file_ + '\' last update: ' + time.strftime("%Y%m%d_%H%M%S", time.localtime(_last_update_)))
 
     else:
       logger.debug('\'' + _m3u_file_ + '\' last update: ' + time.strftime("%Y%m%d_%H%M%S", time.localtime(_last_update_)))
       SimplePVRIntegration_update_m3u_file(NAME, COOKIEJAR, SESSION, DATA_DIR)
-    
+
   else:
     # The _m3u_file_ does not exist or is empty.
     logger.debug('\'' + _m3u_file_ + '\' does not exist or is empty.')
     SimplePVRIntegration_update_m3u_file(NAME, COOKIEJAR, SESSION, DATA_DIR)
-    
+
   logger.debug('Exit function')
 
 
@@ -274,20 +274,20 @@ def SimplePVRIntegration_init_EPG_file(NAME, COOKIEJAR, SESSION, DATA_DIR):
 
     # Get the value (seconds since epoch) of the last modification time.
     _last_update_ = os.path.getmtime(_epg_file_)
-    
+
     if _last_update_ > time.time() - vars.__SimplePVRIntegration_EPG_FileMaxAge__:
       # File was updated within the last __SimplePVRIntegration_EPG_FileMaxAge__ interval, nothing to do
-      logger.debug('\'' + _epg_file_ + '\' last update: ' + time.strftime("%Y%m%d_%H%M%S", time.localtime(_last_update_)))      
+      logger.debug('\'' + _epg_file_ + '\' last update: ' + time.strftime("%Y%m%d_%H%M%S", time.localtime(_last_update_)))
 
     else:
       logger.debug('\'' + _epg_file_ + '\' last update: ' + time.strftime("%Y%m%d_%H%M%S", time.localtime(_last_update_)))
       SimplePVRIntegration_update_EPG_file(NAME, COOKIEJAR, SESSION, DATA_DIR)
-    
+
   else:
     # The _epg_file_ does not exist or is empty.
     logger.debug('\'' + _epg_file_ + '\' does not exist or is empty.')
     SimplePVRIntegration_update_EPG_file(NAME, COOKIEJAR, SESSION, DATA_DIR)
-    
+
   logger.debug('Exit function')
 
 
