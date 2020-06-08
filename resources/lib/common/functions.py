@@ -145,9 +145,14 @@ def do_login(NAME, COOKIEJAR, SESSION):
     'form-login-password': vars.__config_AccountPassword__
   }
 
+  MyFormData_logger = {
+    'form-login-email': vars.__config_AccountUser__,
+    'form-login-password': ****************
+  }
+
   logger.debug('Cookies: ' + str(list(COOKIEJAR)))
   logger.debug('Headers: ' + str(MyHeaders))
-  logger.debug('MyFormData: ' + str(MyFormData))
+  logger.debug('MyFormData: ' + str(MyFormData_logger))
   logger.debug('URL: https://www.digionline.ro/auth/login')
   logger.debug('Method: POST')
 
