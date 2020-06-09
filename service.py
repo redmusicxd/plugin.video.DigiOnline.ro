@@ -119,19 +119,19 @@ def schedule_jobs():
   logger.debug('Enter function')
   functions.read_AddonSettings(MyServiceAddon)
   
-  if vars.__SimplePVRIntegration_m3u_FileRefreshTime__ != vars.__SimplePVRIntegration_m3u_FileOldRefreshTime__ or vars.__SimplePVRIntegration_EPG_FileRefreshTime__ != vars.__SimplePVRIntegration_EPG_FileOldRefreshTime__:
-    logger.debug('__SimplePVRIntegration_m3u_FileRefreshTime__ = ' + vars.__SimplePVRIntegration_m3u_FileRefreshTime__)
-    logger.debug('__SimplePVRIntegration_EPG_FileRefreshTime__ = ' + vars.__SimplePVRIntegration_EPG_FileRefreshTime__)
+  if vars.__PVRIPTVSimpleClientIntegration_m3u_FileRefreshTime__ != vars.__PVRIPTVSimpleClientIntegration_m3u_FileOldRefreshTime__ or vars.__PVRIPTVSimpleClientIntegration_EPG_FileRefreshTime__ != vars.__PVRIPTVSimpleClientIntegration_EPG_FileOldRefreshTime__:
+    logger.debug('__PVRIPTVSimpleClientIntegration_m3u_FileRefreshTime__ = ' + vars.__PVRIPTVSimpleClientIntegration_m3u_FileRefreshTime__)
+    logger.debug('__PVRIPTVSimpleClientIntegration_EPG_FileRefreshTime__ = ' + vars.__PVRIPTVSimpleClientIntegration_EPG_FileRefreshTime__)
 
     schedule.clear('m3u')
-    schedule.every().day.at(vars.__SimplePVRIntegration_m3u_FileRefreshTime__).do(SimplePVRIntegration_update_m3u_file, vars.__ServiceID__, vars.__AddonCookieJar__, vars.__ServiceSession__, MyServiceAddon_DataDir).tag('m3u')
+    schedule.every().day.at(vars.__PVRIPTVSimpleClientIntegration_m3u_FileRefreshTime__).do(PVRIPTVSimpleClientIntegration_update_m3u_file, vars.__ServiceID__, vars.__AddonCookieJar__, vars.__ServiceSession__, MyServiceAddon_DataDir).tag('m3u')
     
     schedule.clear('EPG')
-    schedule.every().day.at(vars.__SimplePVRIntegration_EPG_FileRefreshTime__).do(SimplePVRIntegration_update_EPG_file, vars.__ServiceID__, vars.__AddonCookieJar__, vars.__ServiceSession__, MyServiceAddon_DataDir).tag('EPG')
+    schedule.every().day.at(vars.__PVRIPTVSimpleClientIntegration_EPG_FileRefreshTime__).do(PVRIPTVSimpleClientIntegration_update_EPG_file, vars.__ServiceID__, vars.__AddonCookieJar__, vars.__ServiceSession__, MyServiceAddon_DataDir).tag('EPG')
 
     # Record the new values
-    vars.__SimplePVRIntegration_m3u_FileOldRefreshTime__ = vars.__SimplePVRIntegration_m3u_FileRefreshTime__
-    vars.__SimplePVRIntegration_EPG_FileOldRefreshTime__ = vars.__SimplePVRIntegration_EPG_FileRefreshTime__
+    vars.__PVRIPTVSimpleClientIntegration_m3u_FileOldRefreshTime__ = vars.__PVRIPTVSimpleClientIntegration_m3u_FileRefreshTime__
+    vars.__PVRIPTVSimpleClientIntegration_EPG_FileOldRefreshTime__ = vars.__PVRIPTVSimpleClientIntegration_EPG_FileRefreshTime__
     
   else:
     logger.debug('Nothing to do !')
@@ -139,11 +139,13 @@ def schedule_jobs():
   logger.debug('Exit function')
 
 
-def SimplePVRIntegration_init_m3u_file(NAME, COOKIEJAR, SESSION, DATA_DIR):
+def PVRIPTVSimpleClientIntegration_init_m3u_file(NAME, COOKIEJAR, SESSION, DATA_DIR):
   logger.debug('Enter function')
 
-  _ENVHOME_DIR_ = xbmc.translatePath('special://envhome')
-  _m3u_file_ = os.path.join(_ENVHOME_DIR_, vars.__SimplePVRIntegration_m3u_FileName__)
+  if not os.path.exists(DATA_DIR + '/' + vars.__PVRIPTVSimpleClientIntegration_DataDir__ ):
+    os.makedirs(DATA_DIR + '/' + vars.__PVRIPTVSimpleClientIntegration_DataDir__)
+
+  _m3u_file_ = os.path.join(DATA_DIR, vars.__PVRIPTVSimpleClientIntegration_DataDir__, vars.__PVRIPTVSimpleClientIntegration_m3u_FileName__)
   logger.debug('m3u file: ' + _m3u_file_)
 
   if os.path.exists(_m3u_file_) and os.path.getsize(_m3u_file_) != 0:
@@ -153,28 +155,31 @@ def SimplePVRIntegration_init_m3u_file(NAME, COOKIEJAR, SESSION, DATA_DIR):
     # Get the value (seconds since epoch) of the last modification time.
     _last_update_ = os.path.getmtime(_m3u_file_)
 
-    if _last_update_ > time.time() - vars.__SimplePVRIntegration_m3u_FileMaxAge__:
-      # File was updated within the last __SimplePVRIntegration_m3u_FileMaxAge__ interval, nothing to do
+    if _last_update_ > time.time() - vars.__PVRIPTVSimpleClientIntegration_m3u_FileMaxAge__:
+      # File was updated within the last __PVRIPTVSimpleClientIntegration_m3u_FileMaxAge__ interval, nothing to do
       logger.debug('\'' + _m3u_file_ + '\' last update: ' + time.strftime("%Y%m%d_%H%M%S", time.localtime(_last_update_)))
 
     else:
       logger.debug('\'' + _m3u_file_ + '\' last update: ' + time.strftime("%Y%m%d_%H%M%S", time.localtime(_last_update_)))
-      SimplePVRIntegration_update_m3u_file(NAME, COOKIEJAR, SESSION, DATA_DIR)
+      PVRIPTVSimpleClientIntegration_update_m3u_file(NAME, COOKIEJAR, SESSION, DATA_DIR)
 
   else:
     # The _m3u_file_ does not exist or is empty.
     logger.debug('\'' + _m3u_file_ + '\' does not exist or is empty.')
-    SimplePVRIntegration_update_m3u_file(NAME, COOKIEJAR, SESSION, DATA_DIR)
+    PVRIPTVSimpleClientIntegration_update_m3u_file(NAME, COOKIEJAR, SESSION, DATA_DIR)
 
   logger.debug('Exit function')
 
 
-def SimplePVRIntegration_update_m3u_file(NAME, COOKIEJAR, SESSION, DATA_DIR):
+def PVRIPTVSimpleClientIntegration_update_m3u_file(NAME, COOKIEJAR, SESSION, DATA_DIR):
   logger.debug('Enter function')
   
-  _ENVHOME_DIR_ = xbmc.translatePath('special://envhome')
-  _m3u_file_ = os.path.join(_ENVHOME_DIR_, vars.__SimplePVRIntegration_m3u_FileName__)
-  _tmp_m3u_file_ = os.path.join(_ENVHOME_DIR_, vars.__SimplePVRIntegration_m3u_FileName__ + '.tmp')
+  if not os.path.exists(DATA_DIR + '/' + vars.__PVRIPTVSimpleClientIntegration_DataDir__ ):
+    os.makedirs(DATA_DIR + '/' + vars.__PVRIPTVSimpleClientIntegration_DataDir__)
+
+  _m3u_file_ = os.path.join(DATA_DIR, vars.__PVRIPTVSimpleClientIntegration_DataDir__, vars.__PVRIPTVSimpleClientIntegration_m3u_FileName__)
+  logger.debug('m3u file: ' + _m3u_file_)
+  _tmp_m3u_file_ = os.path.join(DATA_DIR, vars.__PVRIPTVSimpleClientIntegration_DataDir__, vars.__PVRIPTVSimpleClientIntegration_m3u_FileName__ + '.tmp')
   logger.debug('m3u file: ' + _m3u_file_)
   logger.debug('Temp m3u file: ' + _tmp_m3u_file_)
   
@@ -226,7 +231,7 @@ def SimplePVRIntegration_update_m3u_file(NAME, COOKIEJAR, SESSION, DATA_DIR):
   logger.debug('Exit function')
 
 
-def SimplePVRIntegration_getEPG_data(NAME, COOKIEJAR, SESSION, DATE, STREAMID):
+def PVRIPTVSimpleClientIntegration_getEPG_data(NAME, COOKIEJAR, SESSION, DATE, STREAMID):
   logger.debug('Enter function')
 
   _url_ = "https://digiapis.rcs-rds.ro/digionline/api/v12/epg.php?action=getEPG&date=" + str(DATE) + "&id_stream=" + str(STREAMID)
@@ -261,11 +266,13 @@ def SimplePVRIntegration_getEPG_data(NAME, COOKIEJAR, SESSION, DATE, STREAMID):
   return str(_request_.content)
   
 
-def SimplePVRIntegration_init_EPG_file(NAME, COOKIEJAR, SESSION, DATA_DIR):
+def PVRIPTVSimpleClientIntegration_init_EPG_file(NAME, COOKIEJAR, SESSION, DATA_DIR):
   logger.debug('Enter function')
   
-  _ENVHOME_DIR_ = xbmc.translatePath('special://envhome')
-  _epg_file_ = os.path.join(_ENVHOME_DIR_, vars.__SimplePVRIntegration_EPG_FileName__)
+  if not os.path.exists(DATA_DIR + '/' + vars.__PVRIPTVSimpleClientIntegration_DataDir__ ):
+    os.makedirs(DATA_DIR + '/' + vars.__PVRIPTVSimpleClientIntegration_DataDir__)
+
+  _epg_file_ = os.path.join(DATA_DIR, vars.__PVRIPTVSimpleClientIntegration_DataDir__, vars.__PVRIPTVSimpleClientIntegration_EPG_FileName__)
   logger.debug('epg file: ' + _epg_file_)
 
   if os.path.exists(_epg_file_) and os.path.getsize(_epg_file_) != 0:
@@ -275,23 +282,23 @@ def SimplePVRIntegration_init_EPG_file(NAME, COOKIEJAR, SESSION, DATA_DIR):
     # Get the value (seconds since epoch) of the last modification time.
     _last_update_ = os.path.getmtime(_epg_file_)
 
-    if _last_update_ > time.time() - vars.__SimplePVRIntegration_EPG_FileMaxAge__:
-      # File was updated within the last __SimplePVRIntegration_EPG_FileMaxAge__ interval, nothing to do
+    if _last_update_ > time.time() - vars.__PVRIPTVSimpleClientIntegration_EPG_FileMaxAge__:
+      # File was updated within the last __PVRIPTVSimpleClientIntegration_EPG_FileMaxAge__ interval, nothing to do
       logger.debug('\'' + _epg_file_ + '\' last update: ' + time.strftime("%Y%m%d_%H%M%S", time.localtime(_last_update_)))
 
     else:
       logger.debug('\'' + _epg_file_ + '\' last update: ' + time.strftime("%Y%m%d_%H%M%S", time.localtime(_last_update_)))
-      SimplePVRIntegration_update_EPG_file(NAME, COOKIEJAR, SESSION, DATA_DIR)
+      PVRIPTVSimpleClientIntegration_update_EPG_file(NAME, COOKIEJAR, SESSION, DATA_DIR)
 
   else:
     # The _epg_file_ does not exist or is empty.
     logger.debug('\'' + _epg_file_ + '\' does not exist or is empty.')
-    SimplePVRIntegration_update_EPG_file(NAME, COOKIEJAR, SESSION, DATA_DIR)
+    PVRIPTVSimpleClientIntegration_update_EPG_file(NAME, COOKIEJAR, SESSION, DATA_DIR)
 
   logger.debug('Exit function')
 
 
-def SimplePVRIntegration_update_EPG_file(NAME, COOKIEJAR, SESSION, DATA_DIR):
+def PVRIPTVSimpleClientIntegration_update_EPG_file(NAME, COOKIEJAR, SESSION, DATA_DIR):
   logger.debug('Enter function')
 
   _today_ = datetime.date(datetime.today())
@@ -299,9 +306,12 @@ def SimplePVRIntegration_update_EPG_file(NAME, COOKIEJAR, SESSION, DATA_DIR):
   logger.debug('_today_: ' + str(_today_))
   logger.debug('_tomorrow_: ' + str(_tomorrow_))
   
-  _ENVHOME_DIR_ = xbmc.translatePath('special://envhome')
-  _epg_file_ = os.path.join(_ENVHOME_DIR_, vars.__SimplePVRIntegration_EPG_FileName__)
-  _tmp_epg_file_ = os.path.join(_ENVHOME_DIR_, vars.__SimplePVRIntegration_EPG_FileName__ + '.tmp')
+  if not os.path.exists(DATA_DIR + '/' + vars.__PVRIPTVSimpleClientIntegration_DataDir__ ):
+    os.makedirs(DATA_DIR + '/' + vars.__PVRIPTVSimpleClientIntegration_DataDir__)
+
+  _epg_file_ = os.path.join(DATA_DIR, vars.__PVRIPTVSimpleClientIntegration_DataDir__, vars.__PVRIPTVSimpleClientIntegration_EPG_FileName__)
+  logger.debug('epg file: ' + _epg_file_)
+  _tmp_epg_file_ = os.path.join(DATA_DIR, vars.__PVRIPTVSimpleClientIntegration_DataDir__, vars.__PVRIPTVSimpleClientIntegration_EPG_FileName__ + '.tmp')
   logger.debug('epg file: ' + _epg_file_)
   logger.debug('Temp epg file: ' + _tmp_epg_file_)
   
@@ -335,7 +345,7 @@ def SimplePVRIntegration_update_EPG_file(NAME, COOKIEJAR, SESSION, DATA_DIR):
         _channel_metadata_ = json.loads(channel['metadata'])
         logger.debug('Channel streamId: ' + str(_channel_metadata_['new-info']['meta']['streamId']))
                 
-        _json_today_ = SimplePVRIntegration_getEPG_data(NAME, COOKIEJAR, SESSION, _today_, _channel_metadata_['new-info']['meta']['streamId'])
+        _json_today_ = PVRIPTVSimpleClientIntegration_getEPG_data(NAME, COOKIEJAR, SESSION, _today_, _channel_metadata_['new-info']['meta']['streamId'])
         logger.debug('_json_today_: ' + str(_json_today_))
         
         ### Workaround for poorly coded/tested API providing EPG data
@@ -344,7 +354,7 @@ def SimplePVRIntegration_update_EPG_file(NAME, COOKIEJAR, SESSION, DATA_DIR):
           _json_today_ = '{"meta":{"version":"6"},"data":{"id_stream":"' + str(_channel_metadata_['new-info']['meta']['streamId']) + '","stream_name":"","stream_desc":"' + channel['name'] + '","ios_button":"","ios_button_on":"","ios_button_size":"","ios_button_url":"","epg":[]}}'
           logger.debug('_json_today_: ' + str(_json_today_))
         
-        _json_tomorrow_ = SimplePVRIntegration_getEPG_data(NAME, COOKIEJAR, SESSION, _tomorrow_, _channel_metadata_['new-info']['meta']['streamId'])
+        _json_tomorrow_ = PVRIPTVSimpleClientIntegration_getEPG_data(NAME, COOKIEJAR, SESSION, _tomorrow_, _channel_metadata_['new-info']['meta']['streamId'])
         logger.debug('_json_tomorrow_: ' + str(_json_tomorrow_))
         
         ### Workaround for poorly coded/tested API providing EPG data
@@ -409,8 +419,8 @@ if __name__ == '__main__':
   logger.debug('Enter __main__ ')
   logger.info('Running on: ' + str(__SystemBuildVersion__))
   
-  SimplePVRIntegration_init_m3u_file(vars.__ServiceID__, vars.__AddonCookieJar__, vars.__ServiceSession__, MyServiceAddon_DataDir)
-  SimplePVRIntegration_init_EPG_file(vars.__ServiceID__, vars.__AddonCookieJar__, vars.__ServiceSession__, MyServiceAddon_DataDir)
+  PVRIPTVSimpleClientIntegration_init_m3u_file(vars.__ServiceID__, vars.__AddonCookieJar__, vars.__ServiceSession__, MyServiceAddon_DataDir)
+  PVRIPTVSimpleClientIntegration_init_EPG_file(vars.__ServiceID__, vars.__AddonCookieJar__, vars.__ServiceSession__, MyServiceAddon_DataDir)
   
   schedule_jobs()
   schedule.every().minute.at(":05").do(schedule_jobs)

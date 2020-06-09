@@ -68,14 +68,26 @@ __channelsCachedDataRetentionInterval__ = (10 * __day__)
 __EPGDataCachedDataRetentionInterval__ = (10 * __minute__)
 
 
-# Service variables
-__SimplePVRIntegration_m3u_FileName__ = __AddonID__ + '.m3u'
-__SimplePVRIntegration_EPG_FileName__ = __AddonID__ + '.EPG.xml' 
-__SimplePVRIntegration_m3u_FileRefreshTime__ = ''
-__SimplePVRIntegration_EPG_FileRefreshTime__ = ''
-__SimplePVRIntegration_m3u_FileOldRefreshTime__ = ''
-__SimplePVRIntegration_EPG_FileOldRefreshTime__ = ''
-__SimplePVRIntegration_m3u_FileMaxAge__ = (1 * __day__) + (1 * __minute__)
-__SimplePVRIntegration_EPG_FileMaxAge__ = (1 * __day__) + (1 * __minute__)
+### Service variables
+
+## PVR IPTV Simple Client integration 
+# Directory where data files are stored
+__PVRIPTVSimpleClientIntegration_DataDir__ = 'PVRIPTVSimpleClientIntegration'
+
+# File names for the data files
+__PVRIPTVSimpleClientIntegration_m3u_FileName__ = __AddonID__ + '.m3u'
+__PVRIPTVSimpleClientIntegration_EPG_FileName__ = __AddonID__ + '.xml' 
+
+# Time of day for refreshing the contents in the data files.
+__PVRIPTVSimpleClientIntegration_m3u_FileRefreshTime__ = ''
+__PVRIPTVSimpleClientIntegration_EPG_FileRefreshTime__ = ''
+
+# Previous/Old time of day for refreshing the contents in the data files.
+__PVRIPTVSimpleClientIntegration_m3u_FileOldRefreshTime__ = ''
+__PVRIPTVSimpleClientIntegration_EPG_FileOldRefreshTime__ = ''
+
+# Time since the last update of data files. If this time has passed, the data files will be updated at startup.
+__PVRIPTVSimpleClientIntegration_m3u_FileMaxAge__ = (1 * __day__) + (1 * __minute__)
+__PVRIPTVSimpleClientIntegration_EPG_FileMaxAge__ = (1 * __day__) + (1 * __minute__)
 
 
