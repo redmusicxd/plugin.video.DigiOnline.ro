@@ -180,7 +180,7 @@ def PVRIPTVSimpleClientIntegration_update_m3u_file(NAME, COOKIEJAR, SESSION, DAT
   _m3u_file_ = os.path.join(DATA_DIR, vars.__PVRIPTVSimpleClientIntegration_DataDir__, vars.__PVRIPTVSimpleClientIntegration_m3u_FileName__)
   logger.debug('m3u file: ' + _m3u_file_)
   _tmp_m3u_file_ = os.path.join(DATA_DIR, vars.__PVRIPTVSimpleClientIntegration_DataDir__, vars.__PVRIPTVSimpleClientIntegration_m3u_FileName__ + '.tmp')
-  logger.debug('m3u file: ' + _m3u_file_)
+  
   logger.debug('Temp m3u file: ' + _tmp_m3u_file_)
   
   # Login to DigiOnline for this session
