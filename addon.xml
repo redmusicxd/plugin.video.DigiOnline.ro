@@ -22,7 +22,7 @@
 -->
 
 <addon id="plugin.video.DigiOnline.ro"
-version="1.0.13"
+version="1.0.14"
 name="DigiOnline.ro"
 provider-name="cralin">
 <requires>
@@ -54,7 +54,10 @@ Visit https://www.digiromania.ro for more details.
   </assets>
   <news>
   * The addon now generates and maintains the playlist file that can be used by PVR IPTV Simple Client.
-  * The addon now generates and maintains the XMLTV file that can be used by PVR IPTV Simple Client. 
+  * The addon now generates and maintains the XMLTV file that can be used by PVR IPTV Simple Client.
+  
+  For details see https://github.com/cralin/plugin.video.DigiOnline.ro/wiki
+  
   </news>
 </extension>
 </addon>
