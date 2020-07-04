@@ -1,4 +1,4 @@
-# DigiOnline.ro Addon for Kodi (plugin.video.DigiOnline.ro)
+# Kodi add-on for your DigiOnline.ro account (plugin.video.DigiOnline.ro)
 
 
 ## Disclaimer
