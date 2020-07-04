@@ -3,7 +3,7 @@
 
 ## Disclaimer
 
-This addon is not officially commissioned/supported by DigiOnline.ro, Digi Romania or RCS-RDS S.A.
+This addon is not officially commissioned nor supported by DigiOnline.ro, Digi Romania or RCS-RDS S.A.
 
 
 ## Features
