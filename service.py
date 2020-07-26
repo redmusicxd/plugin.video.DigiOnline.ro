@@ -402,7 +402,7 @@ def PVRIPTVSimpleClientIntegration_update_EPG_file(NAME, COOKIEJAR, SESSION, DAT
             _program_data_['program_description'] = re.sub('>', '"', _program_data_['program_description'], flags=re.IGNORECASE)
             _program_data_['program_description_l'] = re.sub('<', '"', _program_data_['program_description_l'], flags=re.IGNORECASE)
             _program_data_['program_description_l'] = re.sub('>', '"', _program_data_['program_description_l'], flags=re.IGNORECASE)
-            _line_ = "    <desc>" + _program_data_['program_description'] + "\n\n" + _program_data_['program_description_l'] + "</desc>"
+            _line_ = "    <desc>" + _program_data_['program_description'] + "\n\n    " + _program_data_['program_description_l'] + "\n    </desc>"
             _data_file_.write(_line_ + "\n")
 
             _line_ = "  </programme>"
