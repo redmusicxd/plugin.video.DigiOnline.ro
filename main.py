@@ -515,6 +515,7 @@ def play_video(endpoint, metadata):
         if is_helper.check_inputstream():
           play_item = xbmcgui.ListItem(path=_stream_manifest_url_)
           play_item.setProperty('inputstreamaddon', 'inputstream.adaptive')
+          play_item.setProperty('inputstream.adaptive.stream_headers', _headers_)
           play_item.setProperty('inputstream.adaptive.license_type', 'com.widevine.alpha')
           play_item.setProperty('inputstream.adaptive.manifest_type', 'mpd')
           play_item.setProperty('inputstream.adaptive.license_key', _stream_data_['data']['content']['widevine.proxy'] + '|' + _lic_headers_ + '|R{SSM}|')
