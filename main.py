@@ -590,9 +590,9 @@ def router(paramstring):
 
 if __name__ == '__main__':
   logger.debug('Enter function')
-  logger.info('Addon version: ' + str(__AddonVersion__))
-  logger.info('System.BuildVersion: ' + str(__SystemBuildVersion__))
-  logger.info('System.BuildDate: ' + str(__SystemBuildDate__))
+  logger.info('=== SYSINFO ===  Addon version: ' + str(__AddonVersion__))
+  logger.info('=== SYSINFO ===  System.BuildVersion: ' + str(__SystemBuildVersion__))
+  logger.info('=== SYSINFO ===  System.BuildDate: ' + str(__SystemBuildDate__))
   
   # Call the router function and pass the plugin call parameters to it.
   router(sys.argv[2][1:])

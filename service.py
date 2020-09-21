@@ -421,9 +421,9 @@ def PVRIPTVSimpleClientIntegration_update_EPG_file(NAME, COOKIEJAR, SESSION, DAT
 
 if __name__ == '__main__':
   logger.debug('Enter __main__ ')
-  logger.info('Addon version: ' + str(__AddonVersion__))
-  logger.info('System.BuildVersion: ' + str(__SystemBuildVersion__))
-  logger.info('System.BuildDate: ' + str(__SystemBuildDate__))
+  logger.info('=== SYSINFO ===  Addon version: ' + str(__AddonVersion__))
+  logger.info('=== SYSINFO ===  System.BuildVersion: ' + str(__SystemBuildVersion__))
+  logger.info('=== SYSINFO ===  System.BuildDate: ' + str(__SystemBuildDate__))
   
   PVRIPTVSimpleClientIntegration_init_m3u_file(vars.__ServiceID__, vars.__AddonCookieJar__, vars.__ServiceSession__, MyServiceAddon_DataDir)
   PVRIPTVSimpleClientIntegration_init_EPG_file(vars.__ServiceID__, vars.__AddonCookieJar__, vars.__ServiceSession__, MyServiceAddon_DataDir)
