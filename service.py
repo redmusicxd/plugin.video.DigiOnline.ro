@@ -34,6 +34,7 @@ import resources.lib.schedule as schedule
 import re
 
 __SystemBuildVersion__ = xbmc.getInfoLabel('System.BuildVersion')
+__SystemBuildDate__ = xbmc.getInfoLabel('System.BuildDate')
 
 # Kodi uses the following sys.argv arguments:
 # [0] - The base URL for this add-on, e.g. 'plugin://plugin.video.demo1/'.
@@ -47,6 +48,9 @@ _url = sys.argv[0]
 #_handle = int(sys.argv[1])
 
 MyServiceAddon = xbmcaddon.Addon(id=vars.__AddonID__)
+
+# The version of the runing Addon
+__AddonVersion__ = MyServiceAddon.getAddonInfo('version')
 
 # Initialize the Addon data directory
 MyServiceAddon_DataDir = xbmc.translatePath(MyServiceAddon.getAddonInfo('profile'))
@@ -417,7 +421,9 @@ def PVRIPTVSimpleClientIntegration_update_EPG_file(NAME, COOKIEJAR, SESSION, DAT
 
 if __name__ == '__main__':
   logger.debug('Enter __main__ ')
-  logger.info('Running on: ' + str(__SystemBuildVersion__))
+  logger.info('Addon version: ' + str(__AddonVersion__))
+  logger.info('System.BuildVersion: ' + str(__SystemBuildVersion__))
+  logger.info('System.BuildDate: ' + str(__SystemBuildDate__))
   
   PVRIPTVSimpleClientIntegration_init_m3u_file(vars.__ServiceID__, vars.__AddonCookieJar__, vars.__ServiceSession__, MyServiceAddon_DataDir)
   PVRIPTVSimpleClientIntegration_init_EPG_file(vars.__ServiceID__, vars.__AddonCookieJar__, vars.__ServiceSession__, MyServiceAddon_DataDir)

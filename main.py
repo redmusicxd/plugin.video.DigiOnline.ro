@@ -39,6 +39,7 @@ import cookielib
 
 
 __SystemBuildVersion__ = xbmc.getInfoLabel('System.BuildVersion')
+__SystemBuildDate__ = xbmc.getInfoLabel('System.BuildDate')
 
 # Kodi uses the following sys.argv arguments:
 # [0] - The base URL for this add-on, e.g. 'plugin://plugin.video.demo1/'.
@@ -52,6 +53,9 @@ _url = sys.argv[0]
 _handle = int(sys.argv[1])
 
 MyAddon = xbmcaddon.Addon(id=vars.__AddonID__)
+
+# The version of the runing Addon
+__AddonVersion__ = MyAddon.getAddonInfo('version')
 
 # Initialize the Addon data directory
 MyAddon_DataDir = xbmc.translatePath(MyAddon.getAddonInfo('profile'))
@@ -586,8 +590,10 @@ def router(paramstring):
 
 if __name__ == '__main__':
   logger.debug('Enter function')
-  logger.info('Running on: ' + str(__SystemBuildVersion__))
-
+  logger.info('Addon version: ' + str(__AddonVersion__))
+  logger.info('System.BuildVersion: ' + str(__SystemBuildVersion__))
+  logger.info('System.BuildDate: ' + str(__SystemBuildDate__))
+  
   # Call the router function and pass the plugin call parameters to it.
   router(sys.argv[2][1:])
 
