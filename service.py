@@ -20,6 +20,7 @@
 import os
 import xbmcaddon
 import xbmc
+import xbmcvfs
 from urllib.parse import urlencode
 import requests
 import json
@@ -53,7 +54,7 @@ MyServiceAddon = xbmcaddon.Addon(id=vars.__AddonID__)
 __AddonVersion__ = MyServiceAddon.getAddonInfo('version')
 
 # Initialize the Addon data directory
-MyServiceAddon_DataDir = xbmc.translatePath(MyServiceAddon.getAddonInfo('profile'))
+MyServiceAddon_DataDir = xbmcvfs.translatePath(MyServiceAddon.getAddonInfo('profile'))
 if not os.path.exists(MyServiceAddon_DataDir):
     os.makedirs(MyServiceAddon_DataDir)
 
@@ -195,7 +196,7 @@ def PVRIPTVSimpleClientIntegration_update_m3u_file(NAME, COOKIEJAR, SESSION, DAT
 
   else:
     _CHNO_ = 1
-    _data_file_ = open(_tmp_m3u_file_, 'w')
+    _data_file_ = open(_tmp_m3u_file_, 'w', encoding='utf-8')
     _data_file_.write("#EXTM3U tvg-shift=0" + "\n")
 
     # Get video categories

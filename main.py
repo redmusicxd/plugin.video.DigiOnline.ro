@@ -22,6 +22,7 @@ from urllib.parse import urlencode
 from urllib.parse import parse_qsl
 import xbmcgui
 import xbmcplugin
+import xbmcvfs
 import os
 import re
 import json
@@ -408,7 +409,7 @@ def play_video(endpoint, metadata):
       # Create a playable item with a path to play.
       # See:  https://github.com/peak3d/inputstream.adaptive/issues/131#issuecomment-375059796
       play_item = xbmcgui.ListItem(path=_stream_url_)
-      play_item.setProperty('inputstreamaddon', 'inputstream.adaptive')
+      play_item.setProperty('inputstream', 'inputstream.adaptive')
       play_item.setProperty('inputstream.adaptive.stream_headers', _headers_)
       play_item.setProperty('inputstream.adaptive.manifest_type', 'hls')
       play_item.setMimeType('application/vnd.apple.mpegurl')
@@ -515,7 +516,7 @@ def play_video(endpoint, metadata):
         is_helper = inputstreamhelper.Helper('mpd', drm='com.widevine.alpha')
         if is_helper.check_inputstream():
           play_item = xbmcgui.ListItem(path=_stream_manifest_url_)
-          play_item.setProperty('inputstreamaddon', 'inputstream.adaptive')
+          play_item.setProperty('inputstream', 'inputstream.adaptive')
           play_item.setProperty('inputstream.adaptive.stream_headers', _headers_)
           play_item.setProperty('inputstream.adaptive.license_type', 'com.widevine.alpha')
           play_item.setProperty('inputstream.adaptive.manifest_type', 'mpd')
