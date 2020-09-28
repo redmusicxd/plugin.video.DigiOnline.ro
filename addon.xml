@@ -54,9 +54,10 @@ Visit https://www.digiromania.ro for more details.
   </assets>
   <news>
   
-  Starting with Kodi 19 (Matrix), Python 2.x was removed from Kodi and replaced with Python 3.x. 
+Starting with Kodi 19 (Matrix), Python 2.x was removed from Kodi and replaced with Python 3.x. 
   
 Since Python 3 is not backwards compatible with Python 2.x versions, the compatibility between addon version(s) and Kodi versions is as follows: 
+
   * Addon 2.x.y version(s) ===> Kodi 19 (Matrix)
   * Addon 1.x.y version(s) ===> Kodi 18 (Leia)
   
