@@ -18,8 +18,8 @@
 #
 
 import sys
-from urllib import urlencode
-from urlparse import parse_qsl
+from urllib.parse import urlencode
+from urllib.parse import parse_qsl
 import xbmcgui
 import xbmcplugin
 import os
@@ -32,10 +32,7 @@ import logging.handlers
 import inputstreamhelper
 import resources.lib.common.vars as vars
 import resources.lib.common.functions as functions
-
-# The cookielib module has been renamed to http.cookiejar in Python 3
-import cookielib
-# import http.cookiejar
+import http.cookiejar
 
 
 __SystemBuildVersion__ = xbmc.getInfoLabel('System.BuildVersion')
@@ -58,7 +55,7 @@ MyAddon = xbmcaddon.Addon(id=vars.__AddonID__)
 __AddonVersion__ = MyAddon.getAddonInfo('version')
 
 # Initialize the Addon data directory
-MyAddon_DataDir = xbmc.translatePath(MyAddon.getAddonInfo('profile'))
+MyAddon_DataDir = xbmcvfs.translatePath(MyAddon.getAddonInfo('profile'))
 if not os.path.exists(MyAddon_DataDir):
     os.makedirs(MyAddon_DataDir)
 
@@ -81,7 +78,7 @@ logger.propagate = False
 # Create a rotating file handler
 # TODO: Extend the settings.xml to allow the user to choose the values for maxBytes and backupCount
 # TODO: Set the values for maxBytes and backupCount to values defined in the addon settings
-handler = logging.handlers.RotatingFileHandler(addon_logfile_name, mode='a', maxBytes=104857600, backupCount=2, encoding=None, delay=False)
+handler = logging.handlers.RotatingFileHandler(addon_logfile_name, mode='a', maxBytes=104857600, backupCount=2, encoding='utf-8', delay=False)
 if vars.__config_DebugEnabled__ == 'true':
   handler.setLevel(logging.DEBUG)
 else:
@@ -379,9 +376,9 @@ def play_video(endpoint, metadata):
       logger.debug('Received status code: ' + str(_request_.status_code))
       logger.debug('Received cookies: ' + str(list(vars.__AddonCookieJar__)))
       logger.debug('Received headers: ' + str(_request_.headers))
-      logger.debug('Received data: ' + _request_.content)
+      logger.debug('Received data: ' + _request_.content.decode())
 
-      _stream_data_ = json.loads(_request_.content)
+      _stream_data_ = json.loads(_request_.content.decode())
       logger.debug('_stream_data_ = ' + str(_stream_data_))
 
       # Get the host needed to be set in the headers
@@ -460,9 +457,9 @@ def play_video(endpoint, metadata):
       logger.debug('Received status code: ' + str(_request_.status_code))
       logger.debug('Received cookies: ' + str(list(vars.__AddonCookieJar__)))
       logger.debug('Received headers: ' + str(_request_.headers))
-      logger.debug('Received data: ' + _request_.content)
+      logger.debug('Received data: ' + _request_.content.decode())
 
-      _stream_data_ = json.loads(_request_.content)
+      _stream_data_ = json.loads(_request_.content.decode())
       logger.debug('_stream_data_ = ' + str(_stream_data_))
 
       if _stream_data_['error']['error_code'] == 0:

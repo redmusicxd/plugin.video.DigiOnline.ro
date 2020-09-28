@@ -20,7 +20,7 @@
 import os
 import xbmcaddon
 import xbmc
-from urllib import urlencode
+from urllib.parse import urlencode
 import requests
 import json
 import logging
@@ -75,7 +75,7 @@ logger.propagate = False
 # Create a rotating file handler
 # TODO: Extend the settings.xml to allow the user to choose the values for maxBytes and backupCount
 # TODO: Set the values for maxBytes and backupCount to values defined in the addon settings
-handler = logging.handlers.RotatingFileHandler(service_logfile_name, mode='a', maxBytes=104857600, backupCount=2, encoding=None, delay=False)
+handler = logging.handlers.RotatingFileHandler(service_logfile_name, mode='a', maxBytes=104857600, backupCount=2, encoding='utf-8', delay=False)
 if vars.__config_DebugEnabled__ == 'true':
   handler.setLevel(logging.DEBUG)
 else:
@@ -264,10 +264,10 @@ def PVRIPTVSimpleClientIntegration_getEPG_data(NAME, COOKIEJAR, SESSION, DATE, S
   logger.debug('Received status code: ' + str(_request_.status_code))
   logger.debug('Received cookies: ' + str(list(COOKIEJAR)))
   logger.debug('Received headers: ' + str(_request_.headers))
-  logger.debug('Received data: ' + str(_request_.content))
+  logger.debug('Received data: ' + _request_.content.decode())
 
   logger.debug('Exit function')
-  return str(_request_.content)
+  return _request_.content.decode()
   
 
 def PVRIPTVSimpleClientIntegration_init_EPG_file(NAME, COOKIEJAR, SESSION, DATA_DIR):

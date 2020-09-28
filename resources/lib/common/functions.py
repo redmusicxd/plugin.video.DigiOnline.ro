@@ -20,13 +20,11 @@
 import sys
 import os
 import logging
-# The cookielib module has been renamed to http.cookiejar in Python 3
-import cookielib
-# import http.cookiejar
+import http.cookiejar
 import re
 import time
 import json
-import vars
+import resources.lib.common.vars as vars
 
 
 def read_AddonSettings(__MyAddon__):
@@ -59,10 +57,7 @@ def init_AddonCookieJar(NAME, DATA_DIR):
   # File containing the session cookies
   cookies_file = os.path.join(DATA_DIR, vars.__AddonCookiesFilename__)
   logger.debug('[ Addon cookies file ] cookies_file = ' + str(cookies_file))
-
-  ### WARNING: The cookielib module has been renamed to http.cookiejar in Python 3
-  #vars.__AddonCookieJar__ = http.cookiejar.MozillaCookieJar(cookies_file)
-  vars.__AddonCookieJar__ = cookielib.MozillaCookieJar(cookies_file)
+  vars.__AddonCookieJar__ = http.cookiejar.MozillaCookieJar(cookies_file)
 
   # If it doesn't exist already, create a new file where the cookies should be saved
   if not os.path.exists(cookies_file):
@@ -116,7 +111,7 @@ def do_login(NAME, COOKIEJAR, SESSION):
   logger.debug('Received status code: ' + str(_request_.status_code))
   logger.debug('Received cookies: ' + str(list(COOKIEJAR)))
   logger.debug('Received headers: ' + str(_request_.headers))
-  logger.debug('Received data: ' + str(_request_.content))
+  logger.debug('Received data: ' + _request_.content.decode())
   logger.debug('============== Stage 1: End ==============')
 
   # Save cookies for later use.
@@ -162,16 +157,16 @@ def do_login(NAME, COOKIEJAR, SESSION):
   logger.debug('Received status code: ' + str(_request_.status_code))
   logger.debug('Received cookies: ' + str(list(COOKIEJAR)))
   logger.debug('Received headers: ' + str(_request_.headers))
-  logger.debug('Received data: ' + str(_request_.content))
+  logger.debug('Received data: ' + _request_.content.decode())
   logger.debug('============== Stage 2: End ==============')
 
   # Authentication error.
-  if re.search('<div class="form-error(.+?)>', _request_.content, re.IGNORECASE):
+  if re.search('<div class="form-error(.+?)>', _request_.content.decode(), re.IGNORECASE):
     logger.debug('\'form-error\' found.')
 
-    _ERR_SECTION_ = re.findall('<div class="form-error(.+?)>\n(.+?)<\/div>', _request_.content, re.IGNORECASE|re.DOTALL)[0][1].strip()
+    _ERR_SECTION_ = re.findall('<div class="form-error(.+?)>\n(.+?)<\/div>', _request_.content.decode(), re.IGNORECASE|re.DOTALL)[0][1].strip()
     _auth_error_message_ = re.sub('&period;', '.', _ERR_SECTION_, flags=re.IGNORECASE)
-    _auth_error_message_ = re.sub('&abreve;', 'a', _auth_error_message_, flags=re.IGNORECASE)
+    _auth_error_message_ = re.sub('&abreve;', 'ă', _auth_error_message_, flags=re.IGNORECASE)
 
     logger.info('[Authentication error] => Error message: '+ _auth_error_message_)
 
@@ -243,16 +238,16 @@ def get_categories(NAME, COOKIEJAR, SESSION):
   logger.debug('Received status code: ' + str(_request_.status_code))
   logger.debug('Received cookies: ' + str(list(COOKIEJAR)))
   logger.debug('Received headers: ' + str(_request_.headers))
-  logger.debug('Received data: ' + str(_request_.content))
+  logger.debug('Received data: ' + _request_.content.decode())
 
   # Get the raw list of categories
-  _raw_categories_ = re.findall('<a href=(.+?)class="nav-menu-item-link ">', _request_.content, re.IGNORECASE)
+  _raw_categories_ = re.findall('<a href=(.+?)class="nav-menu-item-link ">', _request_.content.decode(), re.IGNORECASE)
   logger.debug('Found: _raw_categories_ = ' + str(_raw_categories_))
 
   # Cleanup special characters
-  _raw_categories_ = str(_raw_categories_).replace('\\xc8\\x98', 'S')
-  _raw_categories_ = str(_raw_categories_).replace('\\xc4\\x83', 'a')
-  logger.debug('Cleaned-up _raw_categories_ = ' + str(_raw_categories_))
+  #_raw_categories_ = str(_raw_categories_).replace('\\xc8\\x98', 'S')
+  #_raw_categories_ = str(_raw_categories_).replace('\\xc4\\x83', 'a')
+  #logger.debug('Cleaned-up _raw_categories_ = ' + str(_raw_categories_))
 
   # Build the list of categories names and their titles
   _raw_categories_ = re.findall('"/(.+?)" title="(.+?)"',str(_raw_categories_), re.IGNORECASE)
@@ -443,9 +438,9 @@ def get_channels(category, NAME, COOKIEJAR, SESSION):
   logger.debug('Received status code: ' + str(_request_.status_code))
   logger.debug('Received cookies: ' + str(list(COOKIEJAR)))
   logger.debug('Received headers: ' + str(_request_.headers))
-  logger.debug('Received data: ' + str(_request_.content))
+  logger.debug('Received data: ' + _request_.content.decode())
 
-  _raw_channel_boxes_ = re.findall('<div class="box-container">(.+?)<figcaption>', _request_.content, re.IGNORECASE|re.DOTALL)
+  _raw_channel_boxes_ = re.findall('<div class="box-container">(.+?)<figcaption>', _request_.content.decode(), re.IGNORECASE|re.DOTALL)
   logger.debug('Found _raw_channel_boxes = ' + str(_raw_channel_boxes_))
 
   # Initialize the list of channels
@@ -488,11 +483,11 @@ def get_channels(category, NAME, COOKIEJAR, SESSION):
     logger.debug('Received status code: ' + str(_request_.status_code))
     logger.debug('Received cookies: ' + str(list(COOKIEJAR)))
     logger.debug('Received headers: ' + str(_request_.headers))
-    logger.debug('Received data: ' + str(_request_.content))
+    logger.debug('Received data: ' + _request_.content.decode())
 
-    _raw_channel_details_box_ = re.findall('<div class="entry-video video-player(.+?)</div>', _request_.content, re.IGNORECASE|re.DOTALL)
+    _raw_channel_details_box_ = re.findall('<div class="entry-video video-player(.+?)</div>', _request_.content.decode(), re.IGNORECASE|re.DOTALL)
     if not _raw_channel_details_box_:
-      _raw_channel_details_box_ = re.findall('<div class="video-player entry-video(.+?)</div>', _request_.content, re.IGNORECASE|re.DOTALL)
+      _raw_channel_details_box_ = re.findall('<div class="video-player entry-video(.+?)</div>', _request_.content.decode(), re.IGNORECASE|re.DOTALL)
 
     logger.debug('_raw_channel_details_box_ = ' + str(_raw_channel_details_box_))
 
@@ -684,9 +679,9 @@ def get_epg_data(STREAM_ID, NAME, SESSION):
   logger.debug('Received status code: ' + str(_request_.status_code))
 #  logger.debug('Received cookies: ' + str(list(COOKIEJAR)))
   logger.debug('Received headers: ' + str(_request_.headers))
-  logger.debug('Received data: ' + str(_request_.content))
+  logger.debug('Received data: ' + _request_.content.decode())
 
-  _epgdata_ = _request_.content
+  _epgdata_ = _request_.content.decode()
   logger.debug('_epgdata_ = ' + _epgdata_)
 
   logger.debug('Exit function')
