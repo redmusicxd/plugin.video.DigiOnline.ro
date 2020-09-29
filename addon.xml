@@ -22,7 +22,7 @@
 -->
 
 <addon id="plugin.video.DigiOnline.ro"
-version="1.0.15"
+version="1.0.16"
 name="DigiOnline.ro"
 provider-name="cralin">
 <requires>

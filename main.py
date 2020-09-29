@@ -410,15 +410,17 @@ def play_video(endpoint, metadata):
 
       # Create a playable item with a path to play.
       # See:  https://github.com/peak3d/inputstream.adaptive/issues/131#issuecomment-375059796
-      play_item = xbmcgui.ListItem(path=_stream_url_)
-      play_item.setProperty('inputstreamaddon', 'inputstream.adaptive')
-      play_item.setProperty('inputstream.adaptive.stream_headers', _headers_)
-      play_item.setProperty('inputstream.adaptive.manifest_type', 'hls')
-      play_item.setMimeType('application/vnd.apple.mpegurl')
-      play_item.setContentLookup(False)
+      is_helper = inputstreamhelper.Helper('hls')
+      if is_helper.check_inputstream():
+        play_item = xbmcgui.ListItem(path=_stream_url_)
+        play_item.setProperty('inputstream', 'inputstream.adaptive')
+        play_item.setProperty('inputstream.adaptive.stream_headers', _headers_)
+        play_item.setProperty('inputstream.adaptive.manifest_type', 'hls')
+        play_item.setMimeType('application/vnd.apple.mpegurl')
+        play_item.setContentLookup(False)
 
-      # Pass the item to the Kodi player.
-      xbmcplugin.setResolvedUrl(_handle, True, listitem=play_item)
+        # Pass the item to the Kodi player.
+        xbmcplugin.setResolvedUrl(_handle, True, listitem=play_item)
 
     if _channel_metadata_['shortcode'] == 'nagra-livestream':
       logger.debug('Playing a \'nagra-livestream\' video.')
