@@ -408,7 +408,7 @@ def play_video(endpoint, metadata):
 
       # Create a playable item with a path to play.
       # See:  https://github.com/peak3d/inputstream.adaptive/issues/131#issuecomment-375059796
-      is_helper = inputstreamhelper.Helper('hls', drm='com.widevine.alpha')
+      is_helper = inputstreamhelper.Helper('hls')
       if is_helper.check_inputstream():
         play_item = xbmcgui.ListItem(path=_stream_url_)
         play_item.setProperty('inputstream', 'inputstream.adaptive')
