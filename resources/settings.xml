@@ -1,4 +1,4 @@
-<?xml version="1.0" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 
 <!--
 #
@@ -21,106 +21,30 @@
 #
 -->
 
-<settings version="1">
-  <section id="plugin.video.DigiOnline.ro">
-    <category id="DigiOnline.ro" label="DigiOnline.ro" help="">
-      <group id="Authentication" label="Authentication">
-        <setting id="AccountUser" type="string" label="Authentication User" help="">
-          <level>0</level>
-          <default>__DEFAULT_USER__</default>
-          <constraints>
-            <allowempty>false</allowempty>
-          </constraints>
-          <control type="edit" format="string">
-            <heading>Alin_Heading</heading>
-          </control>
-        </setting>
-        <setting id="AccountPassword" type="string" label="Authentication Password" help="">
-          <level>0</level>
-          <default>__DEFAULT_PASSWORD__</default>
-          <constraints>
-            <allowempty>false</allowempty>
-          </constraints>
-          <control type="edit" format="string">
-            <heading>Alin_Heading</heading>
-          </control>
-        </setting>
-      </group>
-    </category>
-    <category id="GeneralSettings" label="General settings" help="">
-      <group id="Display" label="Display">
-        <setting id="ShowTitleInChannelList" type="boolean" label="Show program title in channel list" help="">
-          <level>0</level>
-          <default>false</default>
-          <control type="toogle" />
-        </setting>
-        <setting id="DebugEnabled" type="boolean" label="Enable debug logging" help="">
-          <level>0</level>
-          <default>false</default>
-          <control type="toogle" />
-        </setting>
-      </group>
-    </category>
-    <category id="CachedData" label="Cached data" help="">
-      <group id="RetentionIntervalDays" label="Retention interval (days)">
-        <setting id="categoriesCachedDataRetentionInterval" type="integer" label="Refresh list of categories every" help="">
-          <level>0</level>
-          <default>90</default>
-          <constraints>
-            <minimum>1</minimum>
-            <step>1</step>
-            <maximum>365</maximum>
-          </constraints>
-          <control type="slider" format="integer">
-            <popup>false</popup>
-          </control>
-        </setting>
-        <setting id="channelsCachedDataRetentionInterval" type="integer" label="Refresh list of channels every" help="">
-          <level>0</level>
-          <default>30</default>
-          <constraints>
-            <minimum>1</minimum>
-            <step>1</step>
-            <maximum>365</maximum>
-          </constraints>
-          <control type="slider" format="integer">
-            <popup>false</popup>
-          </control>
-        </setting>
-      </group>
-      <group id="RetentionIntervalMinutes" label="Retention interval (minutes)">
-        <setting id="EPGDataCachedDataRetentionInterval" type="integer" label="Refresh channel EPG data every" help="">
-          <level>0</level>
-          <default>5</default>
-          <constraints>
-            <minimum>5</minimum>
-            <step>1</step>
-            <maximum>300</maximum>
-          </constraints>
-          <control type="slider" format="integer">
-            <popup>false</popup>
-          </control>
-        </setting>
-      </group>
-    </category>    
-    <category id="SimplePVRIntegration" label="Simple PVR integration" help="">
-      <group id="DataFiles" label="Data file(s)">
-        <setting id="PVRIPTVSimpleClientIntegration_m3u_FileRefreshTime" type="time" label="Update m3u file, daily at" help="">
-          <level>0</level>
-          <default>01:00</default>
-          <control type="button" format="time">
-            <heading>Alin_Heading</heading>
-          </control>
-        </setting>
-        <setting id="PVRIPTVSimpleClientIntegration_EPG_FileRefreshTime" type="time" label="Update XML file, daily at" help="">
-          <level>0</level>
-          <default>01:10</default>
-          <control type="button" format="time">
-            <heading>Alin_Heading</heading>
-          </control>
-        </setting>
-      </group>
-    </category>
-  </section>
+<settings>
+  <category label="DigiOnline.ro">
+    <setting label="Authentication" type="lsep"/>
+    <setting label="Authentication User" id="AccountUser" type="text" default="__DEFAULT_USER__"/>
+    <setting label="Authentication Password" id="AccountPassword" type="text" default="__DEFAULT_PASSWORD__" option="hidden" />
+  </category>
+  <category label="General settings">
+    <setting label="Display" type="lsep"/>
+    <setting label="Show program title in channel list" id="ShowTitleInChannelList" type="bool" default="false" />
+    <setting label="Enable debug logging" id="DebugEnabled" type="bool" default="false" />
+  </category>
+  <category label="Cached data">
+    <setting label="Retention interval (days)" type="lsep"/>
+    <setting label="Refresh list of categories every" id="categoriesCachedDataRetentionInterval" type="slider" default="90" range="1,1,365" option="int" />
+    <setting label="Refresh list of channels every" id="channelsCachedDataRetentionInterval" type="slider" default="30" range="1,1,365" option="int" />
+    <setting type="sep"/>
+    <setting label="Retention interval (minutes)" type="lsep"/>
+    <setting label="Refresh channel EPG data every" id="EPGDataCachedDataRetentionInterval" type="slider" default="10" range="5,1,365" option="int" />
+    <setting type="sep"/>
+  </category>
+  <category label="Simple PVR integration">
+    <setting label="Data file(s)" type="lsep"/>
+    <setting label="Update m3u file, daily at" id="PVRIPTVSimpleClientIntegration_m3u_FileRefreshTime" type="time" default="01:00" />
+    <setting label="Update XML file, daily at" id="PVRIPTVSimpleClientIntegration_EPG_FileRefreshTime" type="time" default="01:10" />
+  </category>
 </settings>
 
