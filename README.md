@@ -3,7 +3,10 @@
 
 ## Disclaimer
 
-This addon is not officially commissioned nor supported by DigiOnline.ro, Digi Romania or RCS-RDS S.A.
+This Kodi add-on is not commissioned/supported by DigiOnline.ro, Digi Romania or RCS-RDS S.A. therefore there is no guarantee that there will be constant proper functioning of this add-on. 
+
+This add-on could break and/or not work anymore at any time, depending on the changes imposed by the DigiOnline.ro platform.
+
 
 
 ## Features
