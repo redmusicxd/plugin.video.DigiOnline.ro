@@ -106,8 +106,8 @@ class Scheduler(object):
 
         :param delay_seconds: A delay added between every executed job
         """
-        logger.info('Running *all* %i jobs with %is delay inbetween',
-                    len(self.jobs), delay_seconds)
+        logger.debug('Running *all* %i jobs with %is delay inbetween',
+                     len(self.jobs), delay_seconds)
         for job in self.jobs[:]:
             self._run_job(job)
             time.sleep(delay_seconds)
@@ -157,6 +157,7 @@ class Scheduler(object):
         Datetime when the next job should run.
 
         :return: A :class:`~datetime.datetime` object
+                 or None if no jobs scheduled
         """
         if not self.jobs:
             return None
@@ -481,7 +482,7 @@ class Job(object):
 
         :return: The return value returned by the `job_func`
         """
-        logger.info('Running job %s', self)
+        logger.debug('Running job %s', self)
         ret = self.job_func()
         self.last_run = datetime.datetime.now()
         self._schedule_next_run()
@@ -544,9 +545,11 @@ class Job(object):
                         self.interval == 1):
                     self.next_run = self.next_run - datetime.timedelta(days=1)
                 elif self.unit == 'hours' \
-                        and self.at_time.minute > now.minute \
-                        or (self.at_time.minute == now.minute
-                            and self.at_time.second > now.second):
+                        and (
+                            self.at_time.minute > now.minute
+                            or (self.at_time.minute == now.minute
+                                and self.at_time.second > now.second)
+                        ):
                     self.next_run = self.next_run - datetime.timedelta(hours=1)
                 elif self.unit == 'minutes' \
                         and self.at_time.second > now.second:
