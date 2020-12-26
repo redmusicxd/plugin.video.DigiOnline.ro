@@ -46,17 +46,17 @@ Visit https://www.digiromania.ro for more details.
 The author is not connected to or in any other way affiliated with Kodi, Team Kodi, the XBMC foundation, RCS RDS SA, digi24.ro or digionline.ro.
     </disclaimer>
     <assets>
-      <icon>icon.png</icon>
-      <fanart>fanart.jpg</fanart>
+      <icon>resources/media/icon.png</icon>
+      <fanart>resources/media/fanart.jpg</fanart>
       <screenshot></screenshot>
     </assets>
     <news>
 Starting with Kodi 19 (Matrix), Python 2.x was removed from Kodi and replaced with Python 3.x. 
   
-Since Python 3 is not backwards compatible with Python 2.x versions, the compatibility between addon version(s) and Kodi versions is as follows: 
+Since Python 3.x is not backwards compatible with Python 2.x, the addon versioning scheme was adjusted as follows: 
 
-  * Addon 19.x.y.z version(s) ===> Kodi 19 (Matrix)
-  * Addon 18.x.y.z version(s) ===> Kodi 18 (Leia)
+  * 19.x.y.z addon version(s) ===> Kodi 19 (Matrix)
+  * 18.x.y.z addon version(s) ===> Kodi 18 (Leia)
   
 Visit https://github.com/cralin/plugin.video.DigiOnline.ro/wiki for more details.
     </news>
