@@ -144,6 +144,58 @@ def schedule_jobs():
   logger.debug('Exit function')
 
 
+
+def PVRIPTVSimpleClientIntegration_check_data_file(DATAFILE):
+  ####
+  #
+  # Check the status of data file.
+  #
+  # Parameters:
+  #      DATAFILE: File (full path) to be checked
+  #
+  # Return:
+  #      0 - update of DATAFILE is not required
+  #      1 - update of DATAFILE is required
+  #
+  ####
+  logger.debug('Enter function')
+  _return_code_ = 0
+  logger.debug('Data file ==> ' + DATAFILE)
+
+  if os.path.exists(DATAFILE):
+    # The DATAFILE exists.
+    logger.debug('\'' + DATAFILE + '\' exists.')
+
+    if os.path.getsize(DATAFILE) != 0:
+      # The DATAFILE is not empty.
+      logger.debug('\'' + DATAFILE + '\' is not empty.')
+    else:
+      # The DATAFILE is empty.
+      logger.debug('\'' + DATAFILE + '\' is empty.')
+      _return_code_ = 1
+
+
+    # Get the value (seconds since epoch) of the last modification time.
+    _last_update_ = os.path.getmtime(DATAFILE)
+
+    if _last_update_ > time.time() - (1 * vars.__day__):
+      # File was updated less than 24 hours ago, nothing to do
+      logger.debug('\'' + DATAFILE + '\' last update: ' + time.strftime("%Y%m%d_%H%M%S", time.localtime(_last_update_)))
+    else:
+      # File was updated 24 hours (or more) ago
+      logger.debug('\'' + DATAFILE + '\' last update: ' + time.strftime("%Y%m%d_%H%M%S", time.localtime(_last_update_)))
+      _return_code_ = 1
+
+  else:
+    # The DATAFILE does not exist.
+    logger.debug('\'' + DATAFILE + '\' does not exist.')
+    _return_code_ = 1
+
+
+  logger.debug('Exit function')
+  return _return_code_
+
+
 def PVRIPTVSimpleClientIntegration_init_m3u_file(NAME, COOKIEJAR, SESSION, DATA_DIR):
   logger.debug('Enter function')
 
@@ -153,24 +205,10 @@ def PVRIPTVSimpleClientIntegration_init_m3u_file(NAME, COOKIEJAR, SESSION, DATA_
   _m3u_file_ = os.path.join(DATA_DIR, vars.__PVRIPTVSimpleClientIntegration_DataDir__, vars.__PVRIPTVSimpleClientIntegration_m3u_FileName__)
   logger.debug('m3u file: ' + _m3u_file_)
 
-  if os.path.exists(_m3u_file_) and os.path.getsize(_m3u_file_) != 0:
-    # The _m3u_file_ exists and is not empty.
-    logger.debug('\'' + _m3u_file_ + '\' exists and is not empty.')
-
-    # Get the value (seconds since epoch) of the last modification time.
-    _last_update_ = os.path.getmtime(_m3u_file_)
-
-    if _last_update_ > time.time() - vars.__PVRIPTVSimpleClientIntegration_m3u_FileMaxAge__:
-      # File was updated within the last __PVRIPTVSimpleClientIntegration_m3u_FileMaxAge__ interval, nothing to do
-      logger.debug('\'' + _m3u_file_ + '\' last update: ' + time.strftime("%Y%m%d_%H%M%S", time.localtime(_last_update_)))
-
-    else:
-      logger.debug('\'' + _m3u_file_ + '\' last update: ' + time.strftime("%Y%m%d_%H%M%S", time.localtime(_last_update_)))
-      PVRIPTVSimpleClientIntegration_update_m3u_file(NAME, COOKIEJAR, SESSION, DATA_DIR)
-
-  else:
-    # The _m3u_file_ does not exist or is empty.
-    logger.debug('\'' + _m3u_file_ + '\' does not exist or is empty.')
+  _update_required_ = PVRIPTVSimpleClientIntegration_check_data_file(_m3u_file_)
+  logger.debug('_update_required_ ==> ' + str(_update_required_))
+  
+  if _update_required_ == 1:
     PVRIPTVSimpleClientIntegration_update_m3u_file(NAME, COOKIEJAR, SESSION, DATA_DIR)
 
   logger.debug('Exit function')
@@ -280,24 +318,10 @@ def PVRIPTVSimpleClientIntegration_init_EPG_file(NAME, COOKIEJAR, SESSION, DATA_
   _epg_file_ = os.path.join(DATA_DIR, vars.__PVRIPTVSimpleClientIntegration_DataDir__, vars.__PVRIPTVSimpleClientIntegration_EPG_FileName__)
   logger.debug('epg file: ' + _epg_file_)
 
-  if os.path.exists(_epg_file_) and os.path.getsize(_epg_file_) != 0:
-    # The _epg_file_ exists and is not empty.
-    logger.debug('\'' + _epg_file_ + '\' exists and is not empty.')
-
-    # Get the value (seconds since epoch) of the last modification time.
-    _last_update_ = os.path.getmtime(_epg_file_)
-
-    if _last_update_ > time.time() - vars.__PVRIPTVSimpleClientIntegration_EPG_FileMaxAge__:
-      # File was updated within the last __PVRIPTVSimpleClientIntegration_EPG_FileMaxAge__ interval, nothing to do
-      logger.debug('\'' + _epg_file_ + '\' last update: ' + time.strftime("%Y%m%d_%H%M%S", time.localtime(_last_update_)))
-
-    else:
-      logger.debug('\'' + _epg_file_ + '\' last update: ' + time.strftime("%Y%m%d_%H%M%S", time.localtime(_last_update_)))
-      PVRIPTVSimpleClientIntegration_update_EPG_file(NAME, COOKIEJAR, SESSION, DATA_DIR)
-
-  else:
-    # The _epg_file_ does not exist or is empty.
-    logger.debug('\'' + _epg_file_ + '\' does not exist or is empty.')
+  _update_required_ = PVRIPTVSimpleClientIntegration_check_data_file(_epg_file_)
+  logger.debug('_update_required_ ==> ' + str(_update_required_))
+  
+  if _update_required_ == 1:
     PVRIPTVSimpleClientIntegration_update_EPG_file(NAME, COOKIEJAR, SESSION, DATA_DIR)
 
   logger.debug('Exit function')
@@ -431,6 +455,8 @@ if __name__ == '__main__':
   
   schedule_jobs()
   schedule.every().minute.at(":05").do(schedule_jobs)
+  schedule.every().minute.at(":10").do(PVRIPTVSimpleClientIntegration_init_m3u_file, vars.__ServiceID__, vars.__AddonCookieJar__, vars.__ServiceSession__, MyServiceAddon_DataDir)
+  schedule.every().minute.at(":15").do(PVRIPTVSimpleClientIntegration_init_EPG_file, vars.__ServiceID__, vars.__AddonCookieJar__, vars.__ServiceSession__, MyServiceAddon_DataDir)
 
   monitor = xbmc.Monitor()  
   while not monitor.abortRequested():
