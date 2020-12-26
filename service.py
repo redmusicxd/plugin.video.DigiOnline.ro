@@ -466,10 +466,14 @@ if __name__ == '__main__':
   PVRIPTVSimpleClientIntegration_init_m3u_file(vars.__ServiceID__, vars.__AddonCookieJar__, vars.__ServiceSession__, MyServiceAddon_DataDir)
   PVRIPTVSimpleClientIntegration_init_EPG_file(vars.__ServiceID__, vars.__AddonCookieJar__, vars.__ServiceSession__, MyServiceAddon_DataDir)
   
+  logger.debug('Finished initialization')
+
   schedule_jobs()
   schedule.every().minute.at(":05").do(schedule_jobs)
   schedule.every().minute.at(":10").do(PVRIPTVSimpleClientIntegration_init_m3u_file, vars.__ServiceID__, vars.__AddonCookieJar__, vars.__ServiceSession__, MyServiceAddon_DataDir)
   schedule.every().minute.at(":15").do(PVRIPTVSimpleClientIntegration_init_EPG_file, vars.__ServiceID__, vars.__AddonCookieJar__, vars.__ServiceSession__, MyServiceAddon_DataDir)
+
+  logger.debug('Finished scheduling jobs')
 
   monitor = xbmc.Monitor()  
   while not monitor.abortRequested():
