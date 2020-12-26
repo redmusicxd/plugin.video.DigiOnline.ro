@@ -23,7 +23,7 @@ Installation methods and initial configuration are described in detail on the wi
 
 ### Quick download links
 
-Latest released package can be downloaded from [here](https://github.com/cralin/plugin.video.DigiOnline.ro/releases/latest)
+Released packages can be downloaded from [here](https://github.com/cralin/plugin.video.DigiOnline.ro/releases)
 
 
 ## PVR IPTV Simple Client
