@@ -21,7 +21,7 @@
 #
 -->
 
-<addon id="plugin.video.DigiOnline.ro" provider-name="cralin" name="DigiOnline.ro" version="1.0.16">
+<addon id="plugin.video.DigiOnline.ro" provider-name="cralin" name="DigiOnline.ro" version="18.1.0.17">
   <requires>
     <import addon="xbmc.python" version="2.25.0"/>
     <import addon="script.module.requests" version="2.12.4"/>
@@ -45,13 +45,17 @@ Visit https://www.digiromania.ro for more details.
 The author is not connected to or in any other way affiliated with Kodi, Team Kodi, the XBMC foundation, RCS RDS SA, digi24.ro or digionline.ro.
     </disclaimer>
     <assets>
-      <icon>icon.png</icon>
-      <fanart>fanart.jpg</fanart>
+      <icon>resources/media/icon.png</icon>
+      <fanart>resources/media/fanart.jpg</fanart>
       <screenshot></screenshot>
     </assets>
     <news>
-  * The addon now generates and maintains the playlist file that can be used by PVR IPTV Simple Client.
-  * The addon now generates and maintains the XMLTV file that can be used by PVR IPTV Simple Client.
+Starting with Kodi 19 (Matrix), Python 2.x was removed from Kodi and replaced with Python 3.x. 
+  
+Since Python 3.x is not backwards compatible with Python 2.x, the addon versioning scheme was adjusted as follows: 
+
+  * 19.x.y.z addon version(s) ===> Kodi 19 (Matrix)
+  * 18.x.y.z addon version(s) ===> Kodi 18 (Leia)
   
 Visit https://github.com/cralin/plugin.video.DigiOnline.ro/wiki for more details.
     </news>
