@@ -331,9 +331,11 @@ def PVRIPTVSimpleClientIntegration_update_EPG_file(NAME, COOKIEJAR, SESSION, DAT
   logger.debug('Enter function')
 
   _today_ = datetime.date(datetime.today())
-  _tomorrow_ = datetime.date(datetime.today()) + timedelta(days=1)
+  _today_plus_1_ = datetime.date(datetime.today()) + timedelta(days=1)
+  _today_plus_2_ = datetime.date(datetime.today()) + timedelta(days=2)
   logger.debug('_today_: ' + str(_today_))
-  logger.debug('_tomorrow_: ' + str(_tomorrow_))
+  logger.debug('_today_plus_1_: ' + str(_today_plus_1_))
+  logger.debug('_today_plus_2_: ' + str(_today_plus_2_))
   
   if not os.path.exists(DATA_DIR + '/' + vars.__PVRIPTVSimpleClientIntegration_DataDir__ ):
     os.makedirs(DATA_DIR + '/' + vars.__PVRIPTVSimpleClientIntegration_DataDir__)
@@ -383,22 +385,33 @@ def PVRIPTVSimpleClientIntegration_update_EPG_file(NAME, COOKIEJAR, SESSION, DAT
           _json_today_ = '{"meta":{"version":"6"},"data":{"id_stream":"' + str(_channel_metadata_['new-info']['meta']['streamId']) + '","stream_name":"","stream_desc":"' + channel['name'] + '","ios_button":"","ios_button_on":"","ios_button_size":"","ios_button_url":"","epg":[]}}'
           logger.debug('_json_today_: ' + str(_json_today_))
         
-        _json_tomorrow_ = PVRIPTVSimpleClientIntegration_getEPG_data(NAME, COOKIEJAR, SESSION, _tomorrow_, _channel_metadata_['new-info']['meta']['streamId'])
-        logger.debug('_json_tomorrow_: ' + str(_json_tomorrow_))
+        _json_today_plus_1_ = PVRIPTVSimpleClientIntegration_getEPG_data(NAME, COOKIEJAR, SESSION, _today_plus_1_, _channel_metadata_['new-info']['meta']['streamId'])
+        logger.debug('_json_today_plus_1_: ' + str(_json_today_plus_1_))
         
         ### Workaround for poorly coded/tested API providing EPG data
-        if _json_tomorrow_ == "ERR":
+        if _json_today_plus_1_ == "ERR":
           logger.debug('Creating json data structure for \'' + channel['name'] + '\'' )
-          _json_tomorrow_ = '{"meta":{"version":"6"},"data":{"id_stream":"' + str(_channel_metadata_['new-info']['meta']['streamId']) + '","stream_name":"","stream_desc":"' + channel['name'] + '","ios_button":"","ios_button_on":"","ios_button_size":"","ios_button_url":"","epg":[]}}'
-          logger.debug('_json_tomorrow_: ' + str(_json_tomorrow_))
+          _json_today_plus_1_ = '{"meta":{"version":"6"},"data":{"id_stream":"' + str(_channel_metadata_['new-info']['meta']['streamId']) + '","stream_name":"","stream_desc":"' + channel['name'] + '","ios_button":"","ios_button_on":"","ios_button_size":"","ios_button_url":"","epg":[]}}'
+          logger.debug('_json_today_plus_1_: ' + str(_json_today_plus_1_))
+
+        _json_today_plus_2_ = PVRIPTVSimpleClientIntegration_getEPG_data(NAME, COOKIEJAR, SESSION, _today_plus_2_, _channel_metadata_['new-info']['meta']['streamId'])
+        logger.debug('_json_today_plus_2_: ' + str(_json_today_plus_2_))
+        
+        ### Workaround for poorly coded/tested API providing EPG data
+        if _json_today_plus_2_ == "ERR":
+          logger.debug('Creating json data structure for \'' + channel['name'] + '\'' )
+          _json_today_plus_2_ = '{"meta":{"version":"6"},"data":{"id_stream":"' + str(_channel_metadata_['new-info']['meta']['streamId']) + '","stream_name":"","stream_desc":"' + channel['name'] + '","ios_button":"","ios_button_on":"","ios_button_size":"","ios_button_url":"","epg":[]}}'
+          logger.debug('_json_today_plus_2_: ' + str(_json_today_plus_2_))
 
         _epg_today_ = json.loads(_json_today_)
-        _epg_tomorrow_ = json.loads(_json_tomorrow_)
+        _epg_today_plus_1_ = json.loads(_json_today_plus_1_)
+        _epg_today_plus_2_ = json.loads(_json_today_plus_2_)
         logger.debug('_epg_today_: ' + str(_epg_today_))
-        logger.debug('_epg_tomorrow_: ' + str(_epg_tomorrow_))
+        logger.debug('_epg_today_plus_1_: ' + str(_epg_today_plus_1_))
+        logger.debug('_epg_today_plus_2_: ' + str(_epg_today_plus_2_))
 
         _epg_ = _epg_today_.copy()
-        _epg_['data']['epg'] = _epg_today_['data']['epg'] + _epg_tomorrow_['data']['epg']
+        _epg_['data']['epg'] = _epg_today_['data']['epg'] + _epg_today_plus_1_['data']['epg'] + _epg_today_plus_2_['data']['epg']
 
         _line_ = "  <channel id=\"" + _epg_['data']['id_stream'] + "\">"
         _data_file_.write(_line_ + "\n")
