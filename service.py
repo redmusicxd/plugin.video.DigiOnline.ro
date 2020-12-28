@@ -449,15 +449,15 @@ if __name__ == '__main__':
   logger.info('=== SYSINFO ===  System.BuildVersion: ' + str(__SystemBuildVersion__))
   logger.info('=== SYSINFO ===  System.BuildDate: ' + str(__SystemBuildDate__))
   
-  PVRIPTVSimpleClientIntegration_init_m3u_file(vars.__ServiceID__, vars.__AddonCookieJar__, vars.__ServiceSession__, MyServiceAddon_DataDir)
-  PVRIPTVSimpleClientIntegration_init_EPG_file(vars.__ServiceID__, vars.__AddonCookieJar__, vars.__ServiceSession__, MyServiceAddon_DataDir)
-  
-  logger.debug('Finished initialization')
+  logger.debug('Waiting 15 seconds for network to stabilize')
+  time.sleep(15)
+  logger.debug('Done waiting 15 seconds for network to stabilize')
 
   schedule_jobs()
   schedule.every().minute.at(":05").do(schedule_jobs)
-  schedule.every().minute.at(":10").do(PVRIPTVSimpleClientIntegration_init_m3u_file, vars.__ServiceID__, vars.__AddonCookieJar__, vars.__ServiceSession__, MyServiceAddon_DataDir)
-  schedule.every().minute.at(":15").do(PVRIPTVSimpleClientIntegration_init_EPG_file, vars.__ServiceID__, vars.__AddonCookieJar__, vars.__ServiceSession__, MyServiceAddon_DataDir)
+  
+  schedule.every().minute.at(":15").do(PVRIPTVSimpleClientIntegration_init_m3u_file, vars.__ServiceID__, vars.__AddonCookieJar__, vars.__ServiceSession__, MyServiceAddon_DataDir)
+  schedule.every().minute.at(":30").do(PVRIPTVSimpleClientIntegration_init_EPG_file, vars.__ServiceID__, vars.__AddonCookieJar__, vars.__ServiceSession__, MyServiceAddon_DataDir)
 
   logger.debug('Finished scheduling jobs')
 
