@@ -22,7 +22,7 @@
 -->
 
 
-<addon id="plugin.video.DigiOnline.ro" provider-name="cralin" name="DigiOnline.ro" version="19.1.0.0">
+<addon id="plugin.video.DigiOnline.ro" provider-name="cralin" name="DigiOnline.ro" version="19.1.0.1">
   <requires>
     <import addon="xbmc.python" version="3.0.0"/>
     <import addon="script.module.requests" version="2.22.0"/>
@@ -51,13 +51,15 @@ The author is not connected to or in any other way affiliated with Kodi, Team Ko
       <screenshot></screenshot>
     </assets>
     <news>
-Starting with Kodi 19 (Matrix), Python 2.x was removed from Kodi and replaced with Python 3.x. 
-  
-Since Python 3.x is not backwards compatible with Python 2.x, the addon versioning scheme was adjusted as follows: 
+Starting with Kodi 19 (Matrix), Python 2.x was replaced with Python 3.x.
+
+When installing the add-on, please make sure you're downloading and using the add-on version matching the Kodi release installed on your device.
+
+Matching repository and package versions are listed below.
 
   * 19.x.y.z addon version(s) ===> Kodi 19 (Matrix)
   * 18.x.y.z addon version(s) ===> Kodi 18 (Leia)
-  
+
 Visit https://github.com/cralin/plugin.video.DigiOnline.ro/wiki for more details.
     </news>
   </extension>
