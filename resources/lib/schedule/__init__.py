@@ -167,8 +167,11 @@ class Scheduler(object):
     def idle_seconds(self):
         """
         :return: Number of seconds until
-                 :meth:`next_run <Scheduler.next_run>`.
+                 :meth:`next_run <Scheduler.next_run>`
+                 or None if no jobs are scheduled
         """
+        if not self.next_run:
+            return None
         return (self.next_run - datetime.datetime.now()).total_seconds()
 
 
@@ -383,12 +386,19 @@ class Job(object):
         """
         Specify a particular time that the job should be run at.
 
-        :param time_str: A string in one of the following formats: `HH:MM:SS`,
-            `HH:MM`,`:MM`, `:SS`. The format must make sense given how often
-            the job is repeating; for example, a job that repeats every minute
-            should not be given a string in the form `HH:MM:SS`. The difference
-            between `:MM` and `:SS` is inferred from the selected time-unit
-            (e.g. `every().hour.at(':30')` vs. `every().minute.at(':30')`).
+        :param time_str: A string in one of the following formats:
+
+            - For daily jobs -> `HH:MM:SS` or `HH:MM`
+            - For hourly jobs -> `MM:SS` or `:MM`
+            - For minute jobs -> `:SS`
+
+            The format must make sense given how often the job is
+            repeating; for example, a job that repeats every minute
+            should not be given a string in the form `HH:MM:SS`. The
+            difference between `:MM` and :SS` is inferred from the
+            selected time-unit (e.g. `every().hour.at(':30')` vs.
+            `every().minute.at(':30')`).
+
         :return: The invoked job instance
         """
         if (self.unit not in ('days', 'hours', 'minutes')
@@ -414,6 +424,10 @@ class Job(object):
             hour = 0
             minute = 0
             _, second = time_values
+        elif len(time_values) == 2 and self.unit == 'hours' and \
+                len(time_values[0]):
+            hour = 0
+            minute, second = time_values
         else:
             hour, minute = time_values
             second = 0
@@ -537,9 +551,11 @@ class Job(object):
             if self.unit in ['days', 'hours'] or self.start_day is not None:
                 kwargs['minute'] = self.at_time.minute
             self.next_run = self.next_run.replace(**kwargs)
-            # If we are running for the first time, make sure we run
-            # at the specified time *today* (or *this hour*) as well
-            if not self.last_run:
+            # Make sure we run at the specified time *today* (or *this hour*)
+            # as well. This accounts for when a job takes so long it finished
+            # in the next period.
+            if not self.last_run \
+                    or (self.next_run - self.last_run) > self.period:
                 now = datetime.datetime.now()
                 if (self.unit == 'days' and self.at_time > now.time() and
                         self.interval == 1):
