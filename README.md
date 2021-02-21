@@ -1,6 +1,16 @@
 # Kodi add-on for your DigiOnline.ro account (plugin.video.DigiOnline.ro)
 
 
+## Deprecation notice !!!
+
+This Kodi add-on is deprecated (will not receive any updates anymore) and targetted to be removed in the near future.
+
+The [plugin.video.TVOnline.ro](https://github.com/cralin/plugin.video.TVOnline.ro) is the successor add-on and it contains all the functionality of this add-on.
+
+If you're interested in a Kodi 19 (Matrix) add-on to access the streams available on DigiOnline.ro platform please use the [plugin.video.TVOnline.ro](https://github.com/cralin/plugin.video.TVOnline.ro).
+
+
+
 ## Disclaimer
 
 This Kodi add-on is not commissioned/supported by DigiOnline.ro, Digi Romania or RCS-RDS S.A. therefore there is no guarantee that there will be constant proper functioning of this add-on. 
